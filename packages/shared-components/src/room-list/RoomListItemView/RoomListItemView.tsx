@@ -157,6 +157,7 @@ export const RoomListItemView = memo(function RoomListItemView({
         <Flex
             as="button"
             ref={ref}
+            id={item.id}
             className={classNames(styles.roomListItem, "mx_RoomListItemView", {
                 [styles.selected]: isSelected,
                 [styles.bold]: item.isBold,
