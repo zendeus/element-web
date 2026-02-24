@@ -97,6 +97,10 @@ const meta = {
             url: "https://www.figma.com/design/vlmt46QDdE4dgXDiyBJXqp/ER-33-Left-Panel?node-id=2925-19126",
         },
     },
+    // Add a small delay before axe a11y tests run to ensure the component has fully rendered
+    play: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+    },
 } satisfies Meta<typeof RoomListViewWrapper>;
 
 export default meta;
