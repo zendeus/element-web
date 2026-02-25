@@ -22,6 +22,8 @@ import {
 } from "matrix-js-sdk/src/matrix";
 import { type MatrixCall } from "matrix-js-sdk/src/webrtc/call";
 import classNames from "classnames";
+import { Group, Panel, Separator } from "react-resizable-panels";
+import DragIcon from "@vector-im/compound-design-tokens/assets/web/icons/drag-list";
 
 import { isOnlyCtrlOrCmdKeyEvent, Key } from "../../Keyboard";
 import PageTypes from "../../PageTypes";
@@ -757,6 +759,53 @@ class LoggedInView extends React.Component<IProps, IState> {
         });
 
         const shouldUseMinimizedUI = !useNewRoomList && this.props.collapseLhs;
+
+        const leftPanel = (
+            <div className="mx_LeftPanel_outerWrapper">
+                <LeftPanelLiveShareWarning isMinimized={shouldUseMinimizedUI || false} />
+                <div className={leftPanelWrapperClasses}>
+                    {!useNewRoomList && (
+                        <BackdropPanel blurMultiplier={0.5} backgroundImage={this.state.backgroundImage} />
+                    )}
+                    {!useNewRoomList && <SpacePanel />}
+                    {!useNewRoomList && <BackdropPanel backgroundImage={this.state.backgroundImage} />}
+                    {!moduleRenderer && (
+                        <div
+                            className="mx_LeftPanel_wrapper--user"
+                            ref={this._resizeContainer}
+                            data-collapsed={shouldUseMinimizedUI ? true : undefined}
+                        >
+                            <LeftPanel
+                                pageType={this.props.page_type as PageTypes}
+                                isMinimized={shouldUseMinimizedUI || false}
+                                resizeNotifier={this.context.resizeNotifier}
+                            />
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+
+        const roomView = <div className="mx_RoomView_wrapper">{pageElement}</div>;
+        const content = useNewRoomList ? (
+            <Group>
+                <SpacePanel />
+                <Panel collapsible minSize="200px" defaultSize="370px" className="mx_LeftPanel_panel">
+                    {leftPanel}
+                </Panel>
+                <Separator className="mx_Separator">
+                    <DragIcon width="1em" transform="rotate(90)" />
+                </Separator>
+                <Panel className="mx_LeftPanel_panel">{roomView}</Panel>
+            </Group>
+        ) : (
+            <>
+                {leftPanel}
+                {!moduleRenderer && <ResizeHandle passRef={this.resizeHandler} id="lp-resizer" />}
+                {roomView}
+            </>
+        );
+
         return (
             <MatrixClientContextProvider client={this._matrixClient}>
                 <div
@@ -766,33 +815,7 @@ class LoggedInView extends React.Component<IProps, IState> {
                     aria-hidden={this.props.hideToSRUsers}
                 >
                     <ToastContainer />
-                    <div className={bodyClasses}>
-                        <div className="mx_LeftPanel_outerWrapper">
-                            <LeftPanelLiveShareWarning isMinimized={shouldUseMinimizedUI || false} />
-                            <div className={leftPanelWrapperClasses}>
-                                {!useNewRoomList && (
-                                    <BackdropPanel blurMultiplier={0.5} backgroundImage={this.state.backgroundImage} />
-                                )}
-                                <SpacePanel />
-                                {!useNewRoomList && <BackdropPanel backgroundImage={this.state.backgroundImage} />}
-                                {!moduleRenderer && (
-                                    <div
-                                        className="mx_LeftPanel_wrapper--user"
-                                        ref={this._resizeContainer}
-                                        data-collapsed={shouldUseMinimizedUI ? true : undefined}
-                                    >
-                                        <LeftPanel
-                                            pageType={this.props.page_type as PageTypes}
-                                            isMinimized={shouldUseMinimizedUI || false}
-                                            resizeNotifier={this.context.resizeNotifier}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        {!moduleRenderer && <ResizeHandle passRef={this.resizeHandler} id="lp-resizer" />}
-                        <div className="mx_RoomView_wrapper">{pageElement}</div>
-                    </div>
+                    <div className={bodyClasses}>{content}</div>
                 </div>
                 <PipContainer />
                 <NonUrgentToastContainer />
