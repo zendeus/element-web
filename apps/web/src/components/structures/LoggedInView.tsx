@@ -22,8 +22,7 @@ import {
 } from "matrix-js-sdk/src/matrix";
 import { type MatrixCall } from "matrix-js-sdk/src/webrtc/call";
 import classNames from "classnames";
-import { Group, Panel, Separator } from "react-resizable-panels";
-import DragIcon from "@vector-im/compound-design-tokens/assets/web/icons/drag-list";
+import { GroupView, SeparatorView, Panel, LeftResizablePanelView } from "@element-hq/web-shared-components";
 
 import { isOnlyCtrlOrCmdKeyEvent, Key } from "../../Keyboard";
 import PageTypes from "../../PageTypes";
@@ -72,6 +71,7 @@ import { MatrixClientContextProvider } from "./MatrixClientContextProvider";
 import { Landmark, LandmarkNavigation } from "../../accessibility/LandmarkNavigation";
 import { ModuleApi } from "../../modules/Api.ts";
 import { SDKContext } from "../../contexts/SDKContext.ts";
+import { LeftPanelResizerViewModel } from "../../viewmodels/structures/LeftPanelResizerViewModel.ts";
 
 // We need to fetch each pinned message individually (if we don't already have it)
 // so each pinned message may trigger a request. Limit the number per room for sanity.
@@ -138,6 +138,8 @@ class LoggedInView extends React.Component<IProps, IState> {
     protected timezoneProfileUpdateRef?: string[];
     protected resizer?: Resizer<ICollapseConfig, CollapseItem>;
 
+    private resizerViewModel?: LeftPanelResizerViewModel;
+
     public static contextType = SDKContext;
     declare public context: React.ContextType<typeof SDKContext>;
 
@@ -197,6 +199,8 @@ class LoggedInView extends React.Component<IProps, IState> {
 
         OwnProfileStore.instance.on(UPDATE_EVENT, this.refreshBackgroundImage);
         this.refreshBackgroundImage();
+
+        this.resizerViewModel = new LeftPanelResizerViewModel();
     }
 
     /**
@@ -257,6 +261,7 @@ class LoggedInView extends React.Component<IProps, IState> {
         SettingsStore.unwatchSetting(this.backgroundImageWatcherRef);
         this.timezoneProfileUpdateRef?.forEach((s) => SettingsStore.unwatchSetting(s));
         this.resizer?.detach();
+        this.resizerViewModel?.dispose();
     }
 
     private onCallState = (): void => {
@@ -787,24 +792,23 @@ class LoggedInView extends React.Component<IProps, IState> {
         );
 
         const roomView = <div className="mx_RoomView_wrapper">{pageElement}</div>;
-        const content = useNewRoomList ? (
-            <Group>
-                <SpacePanel />
-                <Panel collapsible minSize="200px" defaultSize="370px" className="mx_LeftPanel_panel">
+        const content =
+            useNewRoomList && this.resizerViewModel ? (
+                <GroupView vm={this.resizerViewModel}>
+                    <SpacePanel />
+                    <LeftResizablePanelView vm={this.resizerViewModel} className="mx_LeftPanel_panel">
+                        {leftPanel}
+                    </LeftResizablePanelView>
+                    <SeparatorView vm={this.resizerViewModel} />
+                    <Panel className="mx_LeftPanel_panel">{roomView}</Panel>
+                </GroupView>
+            ) : (
+                <>
                     {leftPanel}
-                </Panel>
-                <Separator className="mx_Separator">
-                    <DragIcon width="1em" transform="rotate(90)" />
-                </Separator>
-                <Panel className="mx_LeftPanel_panel">{roomView}</Panel>
-            </Group>
-        ) : (
-            <>
-                {leftPanel}
-                {!moduleRenderer && <ResizeHandle passRef={this.resizeHandler} id="lp-resizer" />}
-                {roomView}
-            </>
-        );
+                    {!moduleRenderer && <ResizeHandle passRef={this.resizeHandler} id="lp-resizer" />}
+                    {roomView}
+                </>
+            );
 
         return (
             <MatrixClientContextProvider client={this._matrixClient}>
