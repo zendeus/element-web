@@ -11,7 +11,7 @@ import { act, render, screen } from "jest-matrix-react";
 import { mocked, type Mocked } from "jest-mock";
 import userEvent from "@testing-library/user-event";
 import { type MatrixClient } from "matrix-js-sdk/src/matrix";
-import { type CryptoApi } from "matrix-js-sdk/src/crypto-api";
+import { type CryptoApi, DecryptionKeyDoesNotMatchError } from "matrix-js-sdk/src/crypto-api";
 
 import * as SecurityManager from "../../../src/SecurityManager";
 import ToastContainer from "../../../src/components/structures/ToastContainer";
@@ -112,6 +112,34 @@ describe("SetupEncryptionToast", () => {
             // the key from 4S
             expect(client.getCrypto()!.resetKeyBackup).not.toHaveBeenCalled();
             expect(client.getCrypto()!.loadSessionBackupPrivateKeyFromSecretStorage).toHaveBeenCalled();
+        });
+
+        it("should reset key backup if decryption key does not match backup", async () => {
+            showToast("key_storage_out_of_sync");
+
+            const crypto = client.getCrypto()!;
+
+            jest.spyOn(SecurityManager, "accessSecretStorage").mockImplementation(
+                async (func = async (): Promise<void> => {}) => {
+                    return await func();
+                },
+            );
+
+            // Given we throw when trying to load the backup decrption key
+            mocked(crypto.loadSessionBackupPrivateKeyFromSecretStorage).mockRejectedValue(
+                new DecryptionKeyDoesNotMatchError("it key no match"),
+            );
+
+            jest.spyOn(DeviceListener.sharedInstance(), "keyStorageOutOfSyncNeedsBackupReset").mockResolvedValue(false);
+            client.isKeyBackupKeyStored.mockResolvedValue({});
+
+            // When we enter our recovery key
+            const user = userEvent.setup();
+            await user.click(await screen.findByText("Enter recovery key"));
+
+            // Then we should reset the key backup because we caught the
+            // DecryptionKeyDoesNotMatchError.
+            expect(client.getCrypto()!.resetKeyBackup).toHaveBeenCalled();
         });
 
         it("should open settings to the reset flow when 'forgot recovery key' clicked and identity reset needed", async () => {

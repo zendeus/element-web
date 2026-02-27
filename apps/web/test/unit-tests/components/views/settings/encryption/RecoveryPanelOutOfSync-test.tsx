@@ -16,6 +16,7 @@ import { RecoveryPanelOutOfSync } from "../../../../../../src/components/views/s
 import { AccessCancelledError, accessSecretStorage } from "../../../../../../src/SecurityManager";
 import { DeviceListener } from "../../../../../../src/device-listener";
 import { createTestClient, withClientContextRenderOptions } from "../../../../../test-utils";
+import { DecryptionKeyDoesNotMatchError } from "matrix-js-sdk/src/crypto-api";
 
 jest.mock("../../../../../../src/SecurityManager", () => {
     const originalModule = jest.requireActual("../../../../../../src/SecurityManager");
@@ -104,6 +105,34 @@ describe("<RecoveyPanelOutOfSync />", () => {
         expect(accessSecretStorage).toHaveBeenCalled();
         expect(onFinish).toHaveBeenCalled();
 
+        expect(matrixClient.getCrypto()!.resetKeyBackup).toHaveBeenCalled();
+    });
+
+    it("should reset key backup if decryption key from secret storage does not match backup", async () => {
+        jest.spyOn(DeviceListener.sharedInstance(), "keyStorageOutOfSyncNeedsBackupReset").mockResolvedValue(false);
+
+        const user = userEvent.setup();
+        mocked(accessSecretStorage).mockImplementation(async (func = async (): Promise<void> => {}) => {
+            return await func();
+        });
+        mocked(matrixClient.isKeyBackupKeyStored).mockResolvedValue(fakeKeyBackupKey());
+
+        // Given we will fail to load a private key because it doesn't match the
+        // latest backup public key
+        mocked(matrixClient.getCrypto()!.loadSessionBackupPrivateKeyFromSecretStorage).mockRejectedValue(
+            new DecryptionKeyDoesNotMatchError("key no matchy"),
+        );
+
+        const onFinish = jest.fn();
+        renderComponent(onFinish);
+
+        // When we enter the recovery key
+        await user.click(screen.getByRole("button", { name: "Enter recovery key" }));
+        expect(accessSecretStorage).toHaveBeenCalled();
+        expect(onFinish).toHaveBeenCalled();
+
+        // Then we reset backup after attempting to load the key
+        expect(matrixClient.getCrypto()!.loadSessionBackupPrivateKeyFromSecretStorage).toHaveBeenCalled();
         expect(matrixClient.getCrypto()!.resetKeyBackup).toHaveBeenCalled();
     });
 
