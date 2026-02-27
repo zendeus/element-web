@@ -226,10 +226,10 @@ export function linkifyHtml(str: string, options = linkifyMatrixOptions): string
 /**
  * Linkify the given string and sanitize the HTML afterwards.
  *
- * @param {string} dirtyHtml The HTML string to sanitize and linkify
+ * @param {string} dirtyString The string to linkify, and then sanitize.
  * @param {object} [options] Options for linkifyString. Default: linkifyMatrixOptions
  * @returns {string}
  */
-export function linkifyAndSanitizeHtml(dirtyHtml: string, options = linkifyMatrixOptions): string {
+export function linkifyAndSanitizeString(dirtyHtml: string, options = linkifyMatrixOptions): string {
     return sanitizeHtml(linkifyString(dirtyHtml, options), sanitizeHtmlParams);
 }

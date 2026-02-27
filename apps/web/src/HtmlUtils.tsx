@@ -24,7 +24,7 @@ import { PERMITTED_URL_SCHEMES } from "./utils/UrlUtils";
 import { linkifyHtml, sanitizeHtmlParams, transformTags } from "./Linkify";
 import { graphemeSegmenter } from "./utils/strings";
 
-export { Linkify, linkifyAndSanitizeHtml } from "./Linkify";
+export { Linkify } from "./Linkify";
 
 // Anything outside the basic multilingual plane will be a surrogate pair
 const SURROGATE_PAIR_PATTERN = /([\ud800-\udbff])([\udc00-\udfff])/;
