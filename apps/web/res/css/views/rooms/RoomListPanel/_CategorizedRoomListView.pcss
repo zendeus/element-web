@@ -1,0 +1,196 @@
+/*
+ * Copyright 2026 Element Creations Ltd.
+ *
+ * SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
+ * Please see LICENSE files in the repository root for full details.
+ */
+
+/* Main scrollable container */
+.mx_CategorizedRoomListView {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    padding: var(--cpd-space-2x) 0;
+}
+
+/* Loading skeleton */
+.mx_CategorizedRoomListView_loading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cpd-space-1x);
+    padding: var(--cpd-space-2x) var(--cpd-space-3x);
+}
+
+.mx_CategorizedRoomListView_skeleton {
+    height: 44px;
+    border-radius: 8px;
+    background: var(--cpd-color-bg-subtle-secondary);
+    animation: mx_CategorizedRoomListView_pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes mx_CategorizedRoomListView_pulse {
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Empty state */
+.mx_CategorizedRoomListView_empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-md-regular);
+    padding: var(--cpd-space-8x);
+}
+
+/* Category section */
+.mx_RoomCategorySection {
+    margin-bottom: var(--cpd-space-1x);
+}
+
+/* Category header — Discord-style uppercase small text */
+.mx_RoomCategorySection_header {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-1x);
+    width: 100%;
+    padding: var(--cpd-space-1x) var(--cpd-space-3x);
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-sm-regular);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+
+    &:hover {
+        color: var(--cpd-color-text-primary);
+    }
+}
+
+.mx_RoomCategorySection_chevron {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    svg {
+        fill: currentColor;
+    }
+}
+
+.mx_RoomCategorySection_label {
+    flex: 1;
+    text-align: left;
+}
+
+.mx_RoomCategorySection_count {
+    font: var(--cpd-font-body-xs-regular);
+    opacity: 0.7;
+}
+
+/* Room list within a category */
+.mx_RoomCategorySection_rooms {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Individual channel list item */
+.mx_ChannelListItem {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-2x);
+    width: 100%;
+    min-height: 44px;
+    padding: var(--cpd-space-1x) var(--cpd-space-3x);
+    padding-left: var(--cpd-space-4x);
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-md-regular);
+    text-align: left;
+    position: relative;
+    border-radius: 0;
+    transition:
+        background-color 0.1s ease,
+        color 0.1s ease;
+
+    &:hover {
+        background-color: var(--cpd-color-bg-action-secondary-hovered);
+        color: var(--cpd-color-text-primary);
+    }
+
+    &:active {
+        background-color: var(--cpd-color-bg-action-secondary-pressed);
+    }
+}
+
+/* Selected state — left accent bar + highlight */
+.mx_ChannelListItem_selected {
+    background-color: var(--cpd-color-bg-action-secondary-hovered);
+    color: var(--cpd-color-text-primary);
+
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 4px;
+        border-radius: 0 4px 4px 0;
+        background-color: var(--cpd-color-bg-accent-rest);
+    }
+}
+
+/* Bold (unread) state */
+.mx_ChannelListItem_bold {
+    color: var(--cpd-color-text-primary);
+    font-weight: 600;
+}
+
+/* Type icon (hash, headphones, person, etc.) */
+.mx_ChannelListItem_icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--cpd-color-icon-secondary);
+
+    svg {
+        fill: currentColor;
+    }
+}
+
+.mx_ChannelListItem_selected .mx_ChannelListItem_icon {
+    color: var(--cpd-color-icon-accent-primary);
+}
+
+/* Channel name */
+.mx_ChannelListItem_name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+/* Message preview */
+.mx_ChannelListItem_preview {
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    max-width: 40%;
+    font: var(--cpd-font-body-sm-regular);
+    color: var(--cpd-color-text-secondary);
+}

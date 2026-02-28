@@ -7,7 +7,6 @@
 
 import React, { useCallback, type JSX, type ReactNode } from "react";
 import {
-    RoomListView as SharedRoomListView,
     useCreateAutoDisposedViewModel,
     type Room as SharedRoom,
 } from "@element-hq/web-shared-components";
@@ -19,9 +18,10 @@ import { getKeyBindingsManager } from "../../../../KeyBindingsManager";
 import { KeyBindingAction } from "../../../../accessibility/KeyboardShortcuts";
 import { Landmark, LandmarkNavigation } from "../../../../accessibility/LandmarkNavigation";
 import { RoomListViewViewModel } from "../../../../viewmodels/room-list/RoomListViewViewModel";
+import { CategorizedRoomListView } from "./CategorizedRoomListView";
 
 /**
- * RoomListView component using shared components with proper MVVM pattern.
+ * RoomListView component using a Discord/Slack-style categorized layout.
  */
 export function RoomListView(): JSX.Element {
     const matrixClient = useMatrixClientContext();
@@ -47,5 +47,5 @@ export function RoomListView(): JSX.Element {
         }
     }, []);
 
-    return <SharedRoomListView vm={vm} renderAvatar={renderAvatar} onKeyDown={onKeyDown} />;
+    return <CategorizedRoomListView vm={vm} renderAvatar={renderAvatar} onKeyDown={onKeyDown} />;
 }
