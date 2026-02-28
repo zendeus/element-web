@@ -10,11 +10,10 @@ import { ChevronDownIcon, ChevronRightIcon } from "@vector-im/compound-design-to
 import type { RoomListViewModel } from "@element-hq/web-shared-components";
 
 import { ChannelListItem } from "./ChannelListItem";
-import type { CategoryId } from "./useCategorizedRooms";
 
 interface RoomCategorySectionProps {
-    /** Category identifier for localStorage persistence */
-    id: CategoryId;
+    /** Category identifier for localStorage persistence (static CategoryId or dynamic subspace room ID) */
+    id: string;
     /** Display label for the category header */
     label: string;
     /** Icon to show next to each room in this category */

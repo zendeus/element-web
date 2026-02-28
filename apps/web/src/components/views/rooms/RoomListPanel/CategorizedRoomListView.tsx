@@ -20,6 +20,7 @@ import ChatIcon from "@vector-im/compound-design-tokens/assets/web/icons/chat";
 import UserProfileIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-profile";
 
 import { useMatrixClientContext } from "../../../../contexts/MatrixClientContext";
+import SpaceStore from "../../../../stores/spaces/SpaceStore";
 import { useCategorizedRooms, type CategoryId } from "./useCategorizedRooms";
 import { RoomCategorySection } from "./RoomCategorySection";
 
@@ -49,7 +50,8 @@ const CATEGORY_ICONS: Record<CategoryId, ReactNode> = {
 export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListViewProps): JSX.Element {
     const snapshot = useViewModel(vm);
     const matrixClient = useMatrixClientContext();
-    const { categories, totalCount } = useCategorizedRooms(snapshot.roomIds, matrixClient);
+    const spaceId = SpaceStore.instance.activeSpace;
+    const { categories, totalCount } = useCategorizedRooms(snapshot.roomIds, matrixClient, spaceId);
 
     // Tell the VM that all rooms are "visible" since we don't virtualize
     useEffect(() => {
@@ -90,7 +92,11 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
                     key={cat.id}
                     id={cat.id}
                     label={cat.label}
-                    categoryIcon={CATEGORY_ICONS[cat.id]}
+                    categoryIcon={
+                        cat.isSubspace
+                            ? <ChatIcon width="16" height="16" />
+                            : CATEGORY_ICONS[cat.id as CategoryId]
+                    }
                     roomIds={cat.roomIds}
                     vm={vm}
                     selectedRoomId={selectedRoomId}
