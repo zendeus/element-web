@@ -38,3 +38,4 @@ storybook-static
 .nx/workspace-data
 
 .pnpm-store
+.direnv/
