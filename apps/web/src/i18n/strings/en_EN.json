@@ -3294,7 +3294,9 @@
     },
     "theme": {
         "light_high_contrast": "Light high contrast",
-        "match_system": "Match system"
+        "match_system": "Match system",
+        "zendeus_dark": "Zendeus Dark",
+        "zendeus_light": "Zendeus Light"
     },
     "thread_view_back_action_label": "Back to thread",
     "threads": {

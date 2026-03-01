@@ -1,0 +1,335 @@
+/* Zendeus Light Theme */
+/* Clean slate canvas with sky-blue accent */
+/* ******************** */
+
+/* Core content colors */
+$primary-content: #0F172A;
+$secondary-content: #475569;
+$tertiary-content: #64748B;
+$quaternary-content: #94A3B8;
+$quinary-content: #CBD5E1;
+
+/* Backgrounds */
+$system: #F1F5F9;
+$system-transparent: #F1F5F900;
+$background: #F8FAFC;
+$overlay-background: rgba(15, 23, 42, 0.5);
+
+$panels: #F1F5F9;
+$panel-actions: rgba(14, 165, 233, 0.06);
+
+$separator: #E2E8F0;
+
+/* Accent & links */
+$accent: #0EA5E9;
+$alert: #DC2626;
+$links: #0EA5E9;
+$link-external: #0EA5E9;
+
+/* Username colors — darker blue/steel/gray for light bg */
+$username-variant1-color: #0369A1;
+$username-variant2-color: #1D4ED8;
+$username-variant3-color: #4338CA;
+$username-variant4-color: #0284C7;
+$username-variant5-color: #334155;
+$username-variant6-color: #0E7490;
+/* ******************** */
+
+/**
+ * Accent color scale — mapped to sky-blue shades
+ */
+$accent-100: #f0f9ff;
+$accent-200: #e0f2fe;
+$accent-300: #bae6fd;
+$accent-400: #7dd3fc;
+$accent-500: #38bdf8;
+$accent-600: #0ea5e9;
+$accent-700: #0284c7;
+$accent-800: #0369a1;
+$accent-900: #075985;
+$accent-1000: #0c4a6e;
+$accent-1100: #082f49;
+$accent-1200: #082f49;
+$accent-1300: #0c1524;
+$accent-1400: #000000;
+
+/* Reused colors */
+/* ******************** */
+$inverted-bg-color: #0EA5E9;
+$header-panel-bg-color: #F1F5F9;
+$header-panel-bg-hover: #E2E8F0;
+/* ******************** */
+
+/* Theme specific colors */
+/* ******************** */
+$icon-button-color: #64748B;
+/* ******************** */
+
+/* Colors that aren't in Figma and are theme specific */
+/* ******************** */
+$selection-fg-color: $background;
+$yellow-background: #FEF9C3;
+$secondary-accent-color: #F1F5F9;
+$button-fg-color: $background;
+$neutral-badge-color: #CBD5E1;
+$strong-input-border-color: #94A3B8;
+$preview-widget-bar-color: #F1F5F9;
+$accent-fg-color: #F8FAFC;
+$accent-alt: #0EA5E9;
+$info-plinth-fg-color: #334155;
+/* ******************** */
+
+/* Colors that aren't in Figma */
+/* ******************** */
+$dark-panel-bg-color: #F1F5F9;
+$muted-fg-color: #64748B;
+$light-fg-color: #94A3B8;
+$focus-bg-color: $preview-widget-bar-color;
+$info-plinth-bg-color: #F1F5F9;
+$event-selected-color: #F1F5F9;
+$topleftmenu-color: #0F172A;
+$roomtopic-color: #94A3B8;
+$spacePanel-bg-color: rgba(226, 232, 240, 0.77);
+$panel-gradient: rgba(248, 250, 252, 0), rgba(248, 250, 252, 1);
+$h3-color: #1E293B;
+$event-highlight-bg-color: $yellow-background;
+$header-panel-text-primary-color: #64748B;
+/* ******************** */
+
+/* Blockquote */
+/* ******************** */
+$blockquote-bar-color: #94A3B8;
+/* ******************** */
+
+/* Tooltip */
+/* ******************** */
+$tooltip-timeline-bg-color: $inverted-bg-color;
+$tooltip-timeline-fg-color: $background;
+/* ******************** */
+
+/* Widget */
+/* ******************** */
+$widget-menu-bar-bg-color: $secondary-accent-color;
+$widget-body-bg-color: $background;
+/* ******************** */
+
+/* Menu */
+/* ******************** */
+$menu-border-color: #E2E8F0;
+$menu-bg-color: $background;
+$menu-box-shadow-color: rgba(100, 116, 139, 0.25);
+$menu-selected-color: #F1F5F9;
+/* ******************** */
+
+/* Settings */
+/* ******************** */
+$settings-grey-fg-color: #94A3B8;
+$settings-subsection-fg-color: $muted-fg-color;
+/* ******************** */
+
+/* Room */
+/* ******************** */
+$room-icon-unread-color: #64748B;
+/* ******************** */
+
+/* RoomHeader */
+/* ******************** */
+$roomheader-addroom-bg-color: rgba(14, 165, 233, 0.1);
+$roomheader-addroom-fg-color: #475569;
+/* ******************** */
+
+/* Rich-text-editor */
+/* ******************** */
+$pill-bg-color: #0EA5E9;
+$pill-hover-bg-color: #0284C7;
+$pill-press-bg-color: #0369A1;
+$rte-bg-color: #E2E8F0;
+$rte-code-bg-color: rgba(0, 0, 0, 0.04);
+/* ******************** */
+
+/* Presence */
+/* ******************** */
+$presence-away: #d9b072;
+$presence-offline: #e3e8f0;
+$presence-busy: $alert;
+/* ******************** */
+
+/* Inputs */
+/* ******************** */
+$input-border-color: #E2E8F0;
+$input-darker-bg-color: $quinary-content;
+$input-darker-fg-color: #94A3B8;
+$input-lighter-bg-color: #F1F5F9;
+$input-underline-color: rgba(148, 163, 184, 0.5);
+$input-fg-color: rgba(15, 23, 42, 0.9);
+$input-placeholder: #94A3B8;
+/* ******************** */
+
+/* Dialog */
+/* ******************** */
+$dialog-title-fg-color: $primary-content;
+$dialog-backdrop-color: #0F172A4D;
+$dialog-close-fg-color: $icon-button-color;
+$dialog-close-external-color: $background;
+/* ******************** */
+
+/* ImageBody */
+/* ******************** */
+$imagebody-giflabel: rgba(0, 0, 0, 0.7);
+$imagebody-giflabel-border: rgba(0, 0, 0, 0.2);
+$imagebody-giflabel-color: $accent-fg-color;
+/* ******************** */
+
+/* RoomList */
+/* ******************** */
+$roomlist-bg-color: rgba(241, 245, 249, 0.9);
+$roomsublist-skeleton-ui-bg: linear-gradient(180deg, $background 0%, #ffffff00 100%);
+$roomtile-default-badge-bg-color: #64748B;
+/* ******************** */
+
+/* e2e */
+/* ******************** */
+$e2e-verified-color: #16A34A;
+$e2e-warning-color: #DC2626;
+$e2e-verified-color-light: #BBF7D0;
+$e2e-warning-color-light: #FECACA;
+/* ******************** */
+
+/* Tabbed views */
+/* ******************** */
+$tab-label-fg-color: $secondary-content;
+$tab-label-active-fg-color: $primary-content;
+/* ******************** */
+
+/* Buttons */
+/* ******************** */
+$button-primary-fg-color: #FFFFFF;
+$button-secondary-bg-color: $accent-fg-color;
+$button-danger-fg-color: #FFFFFF;
+$button-danger-disabled-fg-color: #FFFFFF;
+$button-danger-disabled-bg-color: #FECACA;
+/* ******************** */
+
+/* Toggle switch */
+/* ******************** */
+$togglesw-off-color: #CBD5E1;
+$togglesw-ball-color: #0EA5E9;
+/* ******************** */
+
+/* Authpage */
+/* ******************** */
+$authpage-primary-color: #0F172A;
+$authpage-bg-color: #1E293B;
+$authpage-modal-bg-color: $roomlist-bg-color;
+$authpage-modal-content-with-blur-bg-color: rgb(255, 255, 255, 0.59);
+$authpage-focus-bg-color: $focus-bg-color;
+$authpage-lang-color: $secondary-content;
+$authpage-secondary-color: $secondary-content;
+/* ******************** */
+
+/* Message action bar */
+/* ******************** */
+$message-action-bar-bg-color: $background;
+$message-action-bar-fg-color: $primary-content;
+$message-action-bar-border-color: #E2E8F0;
+$message-action-bar-hover-border-color: $focus-bg-color;
+/* ******************** */
+
+/* Reaction row */
+/* ******************** */
+$reaction-row-button-hover-border-color: $focus-bg-color;
+$reaction-row-button-selected-bg-color: #e0f2fe;
+/* ******************** */
+
+/* Voice messages */
+/* ******************** */
+$voice-record-stop-symbol-color: #ff5b55;
+$voice-record-live-circle-color: #ff5b55;
+$voice-record-stop-border-color: $quinary-content;
+$voice-record-icon-color: $tertiary-content;
+/* ******************** */
+
+/* Bubble tiles */
+/* ******************** */
+$eventbubble-self-bg: #e0f2fe;
+$eventbubble-others-bg: #F1F5F9;
+$eventbubble-bg-hover: #E2E8F0;
+/* ******************** */
+
+/* Lightbox */
+/* ******************** */
+$lightbox-fg-color: #fff;
+$lightbox-background-bg-color: #000;
+$lightbox-background-bg-opacity: 0.95;
+/* ******************** */
+
+/* VoIP */
+/* ******************** */
+$call-view-button-on-foreground: $secondary-content;
+$call-view-button-on-background: $background;
+$call-view-button-off-foreground: $background;
+$call-view-button-off-background: $secondary-content;
+$call-view-content-background: #1E293B;
+
+$video-feed-secondary-background: #334155;
+$voipcall-plinth-color: $system;
+
+$call-system: #1E293B;
+$call-background: #0F172A;
+$call-primary-content: #ffffff;
+$call-light-quaternary-content: #94A3B8;
+/* ******************** */
+
+/* One-off global colors */
+/* ******************** */
+$pinned-color: $tertiary-content;
+$avatar-initial-color: $background;
+$primary-hairline-color: transparent;
+$secondary-hairline-color: #E2E8F0;
+$focus-brightness: 105%;
+/* ******************** */
+
+/* blur amounts for left panel */
+/* ******************** */
+:root {
+    --lp-background-blur: 40px;
+}
+/* ******************** */
+
+/* Location sharing */
+/* ******************** */
+$location-marker-color: #FFFFFF;
+$location-live-color: #0EA5E9;
+$location-live-secondary-color: #7dd3fc;
+/* ******************** */
+
+body {
+    color-scheme: light;
+}
+
+/* One-off colors */
+/* ******************** */
+$progressbar-bg-color: #E2E8F0;
+$kbd-border-color: $strong-input-border-color;
+$visual-bell-bg-color: #faa;
+$event-timestamp-color: #94A3B8;
+$composer-shadow-color: rgba(0, 0, 0, 0.04);
+$breadcrumb-placeholder-bg-color: #E2E8F0;
+$resend-button-divider-color: $input-darker-bg-color;
+$inlinecode-border-color: $quinary-content;
+$inlinecode-background-color: $system;
+$codeblock-background-color: $header-panel-bg-color;
+$scrollbar-thumb-color: rgba(0, 0, 0, 0.15);
+$selected-color: $secondary-accent-color;
+/* ******************** */
+
+/* diff highlight colors */
+/* ******************** */
+.hljs-addition {
+    background: #bbf7d0;
+}
+
+.hljs-deletion {
+    background: #fecaca;
+}
+/* ******************** */
