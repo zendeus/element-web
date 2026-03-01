@@ -356,6 +356,14 @@ $selected-color: $secondary-accent-color;
         --cpd-color-gray-1300: #0F172A;
         --cpd-color-gray-1400: #0F172A;
 
+        /* Alpha grays */
+        --cpd-color-alpha-gray-100: hsla(215, 20%, 40%, 0.01);
+        --cpd-color-alpha-gray-200: hsla(215, 20%, 40%, 0.04);
+        --cpd-color-alpha-gray-300: hsla(215, 20%, 40%, 0.06);
+        --cpd-color-alpha-gray-400: hsla(215, 20%, 40%, 0.1);
+        --cpd-color-alpha-gray-500: hsla(215, 20%, 40%, 0.15);
+        --cpd-color-alpha-gray-1300: hsla(215, 25%, 10%, 0.5);
+
         /* Green scale — remapped to sky-blue */
         --cpd-color-green-100: #f0f9ff;
         --cpd-color-green-200: #e0f2fe;
@@ -372,9 +380,28 @@ $selected-color: $secondary-accent-color;
         --cpd-color-green-1300: #0c4a6e;
         --cpd-color-green-1400: #082f49;
 
-        /* Alpha grays */
-        --cpd-color-alpha-gray-300: hsla(215, 20%, 40%, 0.06);
-        --cpd-color-alpha-gray-1300: hsla(215, 25%, 10%, 0.5);
+        /* Alpha greens — remapped to sky-blue with alpha */
+        --cpd-color-alpha-green-100: hsla(199, 89%, 48%, 0.02);
+        --cpd-color-alpha-green-200: hsla(199, 89%, 48%, 0.05);
+        --cpd-color-alpha-green-300: hsla(199, 89%, 48%, 0.08);
+        --cpd-color-alpha-green-400: hsla(199, 89%, 48%, 0.12);
+        --cpd-color-alpha-green-500: hsla(199, 89%, 48%, 0.18);
+
+        /* Red scale — clean red for light theme */
+        --cpd-color-red-100: #FEF2F2;
+        --cpd-color-red-200: #FEE2E2;
+        --cpd-color-red-300: #FECACA;
+        --cpd-color-red-400: #FCA5A5;
+        --cpd-color-red-500: #F87171;
+        --cpd-color-red-600: #EF4444;
+        --cpd-color-red-700: #DC2626;
+        --cpd-color-red-800: #B91C1C;
+        --cpd-color-red-900: #DC2626;
+        --cpd-color-red-1000: #B91C1C;
+        --cpd-color-red-1100: #991B1B;
+        --cpd-color-red-1200: #7F1D1D;
+        --cpd-color-red-1300: #601010;
+        --cpd-color-red-1400: #450A0A;
 
         /* Background tokens */
         --cpd-color-theme-bg: #F8FAFC;
@@ -388,6 +415,16 @@ $selected-color: $secondary-accent-color;
         --cpd-color-bg-action-tertiary-hovered: #E2E8F0;
         --cpd-color-bg-action-tertiary-selected: #CBD5E1;
         --cpd-color-bg-accent-rest: #0EA5E9;
+        --cpd-color-bg-accent-hovered: #0284C7;
+        --cpd-color-bg-accent-pressed: #0369A1;
+        --cpd-color-bg-accent-selected: hsla(199, 89%, 48%, 0.08);
+        --cpd-color-bg-success-subtle: #e0f2fe;
+        --cpd-color-bg-critical-primary: #DC2626;
+        --cpd-color-bg-critical-hovered: #B91C1C;
+        --cpd-color-bg-critical-subtle: #FEE2E2;
+        --cpd-color-bg-critical-subtle-hovered: #FECACA;
+        --cpd-color-bg-info-subtle: #e0f2fe;
+        --cpd-color-bg-badge-accent: hsla(199, 89%, 48%, 0.12);
 
         /* Text tokens */
         --cpd-color-text-primary: #0F172A;
@@ -398,6 +435,7 @@ $selected-color: $secondary-accent-color;
         --cpd-color-text-success-primary: #0EA5E9;
         --cpd-color-text-info-primary: #0EA5E9;
         --cpd-color-text-on-solid-primary: #FFFFFF;
+        --cpd-color-text-badge-accent: #0369a1;
 
         /* Icon tokens */
         --cpd-color-icon-primary: #0F172A;
@@ -407,12 +445,18 @@ $selected-color: $secondary-accent-color;
         --cpd-color-icon-success-primary: #0EA5E9;
         --cpd-color-icon-critical-primary: #DC2626;
         --cpd-color-icon-accent-tertiary: #0EA5E9;
+        --cpd-color-icon-accent-primary: #0EA5E9;
 
         /* Border tokens */
         --cpd-color-border-interactive-primary: #94A3B8;
         --cpd-color-border-interactive-secondary: #CBD5E1;
         --cpd-color-border-interactive-hovered: #64748B;
         --cpd-color-border-disabled: #E2E8F0;
+        --cpd-color-border-success-subtle: #38bdf8;
+        --cpd-color-border-accent-subtle: #0284c7;
+        --cpd-color-border-critical-primary: #DC2626;
+        --cpd-color-border-critical-hovered: #B91C1C;
+        --cpd-color-border-critical-subtle: #F87171;
 
         /* Username / decorative colors — darker blue-steel for light bg */
         --cpd-color-text-decorative-1: #0369A1;
