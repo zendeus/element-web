@@ -5,6 +5,18 @@
  * Please see LICENSE files in the repository root for full details.
  */
 
+.button {
+    svg {
+        transition: transform 0.1s linear;
+    }
+}
+
+.button[aria-expanded="true"] {
+    svg {
+        transform: rotate(180deg);
+    }
+}
+
 .title {
     /* For first title, there is already enough space at the top */
     margin-top: 0 !important;

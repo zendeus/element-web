@@ -6,7 +6,7 @@
  */
 
 import React, { type JSX } from "react";
-import { IconButton, H1 } from "@vector-im/compound-web";
+import { IconButton } from "@vector-im/compound-web";
 import ComposeIcon from "@vector-im/compound-design-tokens/assets/web/icons/compose";
 
 import { type ViewModel, useViewModel } from "../../viewmodel";
@@ -160,9 +160,9 @@ export function RoomListHeaderView({ vm }: Readonly<RoomListHeaderViewProps>): J
                             <span className={styles.separator}>/</span>
                         </>
                     )}
-                    <H1 size="sm" title={title}>
+                    <span className={styles.currentSpace} title={title}>
                         {title}
-                    </H1>
+                    </span>
                     {displaySpaceMenu && <SpaceMenuView vm={vm} />}
                 </Flex>
                 <Flex align="center" gap="var(--cpd-space-2x)">

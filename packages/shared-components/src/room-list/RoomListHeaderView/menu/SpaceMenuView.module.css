@@ -6,13 +6,4 @@
  */
 
 .button {
-    svg {
-        transition: transform 0.1s linear;
-    }
-}
-
-.button[aria-expanded="true"] {
-    svg {
-        transform: rotate(180deg);
-    }
 }

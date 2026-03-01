@@ -7,7 +7,7 @@
 
 import React, { type JSX, useState } from "react";
 import { IconButton, Menu, MenuItem } from "@vector-im/compound-web";
-import ChevronDownIcon from "@vector-im/compound-design-tokens/assets/web/icons/chevron-down";
+import OverflowHorizontalIcon from "@vector-im/compound-design-tokens/assets/web/icons/overflow-horizontal";
 import HomeIcon from "@vector-im/compound-design-tokens/assets/web/icons/home";
 import SettingsIcon from "@vector-im/compound-design-tokens/assets/web/icons/settings";
 import PreferencesIcon from "@vector-im/compound-design-tokens/assets/web/icons/preferences";
@@ -50,11 +50,11 @@ export function SpaceMenuView({ vm }: SpaceMenuViewProps): JSX.Element {
                 <IconButton
                     className={styles.button}
                     aria-label={_t("room_list|open_space_menu")}
-                    // 24px icon with a 20px icon
-                    size="24px"
-                    style={{ padding: "2px" }}
+                    // 28px icon with a 20px icon
+                    size="28px"
+                    style={{ padding: "4px" }}
                 >
-                    <ChevronDownIcon />
+                    <OverflowHorizontalIcon />
                 </IconButton>
             }
         >

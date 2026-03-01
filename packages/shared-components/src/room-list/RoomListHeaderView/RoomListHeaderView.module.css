@@ -18,14 +18,16 @@
 
 .title {
     min-width: 0;
+}
 
-    h1 {
-        /* Remove default h1 margin */
-        margin: unset;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
+.currentSpace {
+    font: var(--cpd-font-body-md-semibold);
+    font-size: var(--cpd-font-size-body-sm);
+    color: var(--cpd-color-text-primary);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .breadcrumb {
@@ -33,13 +35,15 @@
     border: none;
     cursor: pointer;
     color: var(--cpd-color-text-secondary);
-    font: var(--cpd-font-body-sm-regular);
+    font: var(--cpd-font-body-md-semibold);
+    font-size: var(--cpd-font-size-body-sm);
     padding: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-shrink: 1;
     min-width: 0;
+    transition: color 0.15s ease;
 }
 
 .breadcrumb:hover {
@@ -49,5 +53,7 @@
 
 .separator {
     color: var(--cpd-color-text-secondary);
+    opacity: 0.4;
     flex-shrink: 0;
+    padding: 0 var(--cpd-space-1x);
 }

@@ -7,7 +7,7 @@
 
 import { CheckboxMenuItem, IconButton, Menu, MenuTitle, RadioMenuItem } from "@vector-im/compound-web";
 import React, { type JSX, useState } from "react";
-import OverflowHorizontalIcon from "@vector-im/compound-design-tokens/assets/web/icons/overflow-horizontal";
+import ChevronDownIcon from "@vector-im/compound-design-tokens/assets/web/icons/chevron-down";
 
 import { type RoomListHeaderViewModel } from "../RoomListHeaderView";
 import { useViewModel } from "../../../viewmodel";
@@ -44,13 +44,14 @@ export function OptionMenuView({ vm }: OptionMenuViewProps): JSX.Element {
             align="start"
             trigger={
                 <IconButton
+                    className={styles.button}
                     tooltip={_t("room_list|room_options")}
                     aria-label={_t("room_list|room_options")}
-                    // 28px icon with a 20px icon
-                    size="28px"
-                    style={{ padding: "4px" }}
+                    // 24px icon with a 20px icon
+                    size="24px"
+                    style={{ padding: "2px" }}
                 >
-                    <OverflowHorizontalIcon />
+                    <ChevronDownIcon />
                 </IconButton>
             }
         >

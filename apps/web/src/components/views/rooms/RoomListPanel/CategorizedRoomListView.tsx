@@ -21,8 +21,11 @@ import UserProfileIcon from "@vector-im/compound-design-tokens/assets/web/icons/
 
 import { useMatrixClientContext } from "../../../../contexts/MatrixClientContext";
 import SpaceStore from "../../../../stores/spaces/SpaceStore";
+import { isMetaSpace } from "../../../../stores/spaces";
 import { useCategorizedRooms, type CategoryId } from "./useCategorizedRooms";
 import { RoomCategorySection } from "./RoomCategorySection";
+import { useUnjoinedChildSpaces } from "./useUnjoinedChildSpaces";
+import { UnjoinedSpaceItem } from "./UnjoinedSpaceItem";
 
 interface CategorizedRoomListViewProps {
     /** The room list view model */
@@ -52,6 +55,9 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
     const matrixClient = useMatrixClientContext();
     const spaceId = SpaceStore.instance.activeSpace;
     const { categories, totalCount } = useCategorizedRooms(snapshot.roomIds, matrixClient, spaceId);
+    const isRealSpace = spaceId && !isMetaSpace(spaceId);
+    const { unjoinedSpaces, isLoading: unjoinedLoading, joinSpace, joiningRoomId } =
+        useUnjoinedChildSpaces(matrixClient, isRealSpace ? spaceId : undefined);
 
     // Tell the VM that all rooms are "visible" since we don't virtualize
     useEffect(() => {
@@ -75,11 +81,11 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
         );
     }
 
-    if (snapshot.isRoomListEmpty) {
+    if (snapshot.isRoomListEmpty && unjoinedSpaces.length === 0) {
         return (
             <div className="mx_CategorizedRoomListView" onKeyDown={onKeyDown}>
                 <div className="mx_CategorizedRoomListView_empty">
-                    <p>No rooms to show</p>
+                    <p>{isRealSpace ? "This space has no channels yet" : "No rooms to show"}</p>
                 </div>
             </div>
         );
@@ -100,8 +106,31 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
                     roomIds={cat.roomIds}
                     vm={vm}
                     selectedRoomId={selectedRoomId}
+                    isSubspace={cat.isSubspace}
+                    spaceId={cat.isSubspace ? cat.id : undefined}
                 />
             ))}
+            {isRealSpace && (unjoinedSpaces.length > 0 || unjoinedLoading) && (
+                <div className="mx_UnjoinedSpacesSection">
+                    <div className="mx_UnjoinedSpacesSection_header">Available Spaces</div>
+                    {unjoinedLoading ? (
+                        <div className="mx_UnjoinedSpacesSection_loading">
+                            {Array.from({ length: 3 }, (_, i) => (
+                                <div key={i} className="mx_UnjoinedSpacesSection_skeleton" />
+                            ))}
+                        </div>
+                    ) : (
+                        unjoinedSpaces.map((space) => (
+                            <UnjoinedSpaceItem
+                                key={space.roomId}
+                                space={space}
+                                onJoin={joinSpace}
+                                isJoining={joiningRoomId === space.roomId}
+                            />
+                        ))
+                    )}
+                </div>
+            )}
         </div>
     );
 }

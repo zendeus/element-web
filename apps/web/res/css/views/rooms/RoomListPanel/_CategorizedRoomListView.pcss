@@ -56,6 +56,14 @@
     margin-bottom: var(--cpd-space-1x);
 }
 
+/* Divider between subspace categories and non-subspace categories */
+.mx_RoomCategorySection_subspace + .mx_RoomCategorySection:not(.mx_RoomCategorySection_subspace),
+.mx_RoomCategorySection:not(.mx_RoomCategorySection_subspace) + .mx_RoomCategorySection_subspace {
+    border-top: 1px solid var(--cpd-color-bg-subtle-primary);
+    margin-top: var(--cpd-space-1x);
+    padding-top: var(--cpd-space-1x);
+}
+
 /* Category header — Discord-style uppercase small text */
 .mx_RoomCategorySection_header {
     display: flex;
@@ -72,9 +80,16 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     user-select: none;
+    transition: color 0.15s ease;
 
     &:hover {
         color: var(--cpd-color-text-primary);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--cpd-color-border-focused);
+        outline-offset: -2px;
+        border-radius: 4px;
     }
 }
 
@@ -82,10 +97,15 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    transition: transform 0.15s ease;
 
     svg {
         fill: currentColor;
     }
+}
+
+.mx_RoomCategorySection_chevron[data-expanded="true"] {
+    transform: rotate(90deg);
 }
 
 .mx_RoomCategorySection_label {
@@ -98,10 +118,134 @@
     opacity: 0.7;
 }
 
+/* Options button on subspace headers — hidden until hover */
+.mx_RoomCategorySection_options {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.mx_RoomCategorySection_header:hover .mx_RoomCategorySection_options,
+.mx_RoomCategorySection_options:focus-within {
+    opacity: 1;
+}
+
 /* Room list within a category */
+@keyframes mx_categoryExpand {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .mx_RoomCategorySection_rooms {
     display: flex;
     flex-direction: column;
+    animation: mx_categoryExpand 0.15s ease-out;
+}
+
+/* Unjoined spaces section */
+.mx_UnjoinedSpacesSection {
+    margin-top: var(--cpd-space-1x);
+    padding-top: var(--cpd-space-1x);
+    border-top: 1px solid var(--cpd-color-bg-subtle-primary);
+}
+
+.mx_UnjoinedSpacesSection_header {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-1x);
+    padding: var(--cpd-space-1x) var(--cpd-space-3x);
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-sm-regular);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+}
+
+.mx_UnjoinedSpaceItem {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-2x);
+    width: 100%;
+    min-height: 44px;
+    padding: var(--cpd-space-1x) var(--cpd-space-3x);
+    padding-left: var(--cpd-space-4x);
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-md-regular);
+    font-style: italic;
+    text-align: left;
+    opacity: 0.5;
+    transition:
+        opacity 0.15s ease,
+        background-color 0.1s ease;
+
+    &:hover {
+        opacity: 0.8;
+        background-color: var(--cpd-color-bg-action-secondary-hovered);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--cpd-color-border-focused);
+        outline-offset: -2px;
+        opacity: 0.8;
+    }
+}
+
+.mx_UnjoinedSpaceItem_icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--cpd-color-icon-secondary);
+
+    svg {
+        fill: currentColor;
+    }
+}
+
+.mx_UnjoinedSpaceItem_name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.mx_UnjoinedSpaceItem_actions {
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.mx_UnjoinedSpaceItem:hover .mx_UnjoinedSpaceItem_actions,
+.mx_UnjoinedSpaceItem_actions:focus-within {
+    opacity: 1;
+}
+
+/* Loading skeleton for unjoined spaces */
+.mx_UnjoinedSpacesSection_loading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cpd-space-1x);
+    padding: var(--cpd-space-1x) var(--cpd-space-3x);
+}
+
+.mx_UnjoinedSpacesSection_skeleton {
+    height: 36px;
+    border-radius: 8px;
+    background: var(--cpd-color-bg-subtle-secondary);
+    opacity: 0.4;
+    animation: mx_CategorizedRoomListView_pulse 1.5s ease-in-out infinite;
 }
 
 /* Individual channel list item */
