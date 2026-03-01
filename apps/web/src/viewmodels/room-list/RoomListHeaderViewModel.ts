@@ -5,7 +5,7 @@
  * Please see LICENSE files in the repository root for full details.
  */
 
-import { JoinRule, type MatrixClient, type Room, RoomEvent, RoomType } from "matrix-js-sdk/src/matrix";
+import { EventType, JoinRule, type MatrixClient, type Room, RoomEvent, RoomType } from "matrix-js-sdk/src/matrix";
 import {
     BaseViewModel,
     type RoomListHeaderViewSnapshot,
@@ -21,6 +21,7 @@ import { type SpaceStoreClass } from "../../stores/spaces/SpaceStore";
 import {
     shouldShowSpaceSettings,
     showCreateNewRoom,
+    showCreateNewSubspace,
     showSpaceInvite,
     showSpacePreferences,
     showSpaceSettings,
@@ -30,6 +31,8 @@ import SettingsStore from "../../settings/SettingsStore";
 import RoomListStoreV3 from "../../stores/room-list-v3/RoomListStoreV3";
 import { SortingAlgorithm } from "../../stores/room-list-v3/skip-list/sorters";
 import { SettingLevel } from "../../settings/SettingLevel";
+import { shouldShowComponent } from "../../customisations/helpers/UIComponents";
+import { UIComponent } from "../../settings/UIFeature";
 import { createRoom, hasCreateRoomRights } from "./utils";
 
 export interface Props {
@@ -131,6 +134,10 @@ export class RoomListHeaderViewModel
         PosthogTrackers.trackInteraction("WebRoomListHeaderPlusMenuCreateRoomItem", e);
     };
 
+    public createSubspace = (): void => {
+        if (this.activeSpace) showCreateNewSubspace(this.activeSpace);
+    };
+
     public createVideoRoom = (): void => {
         const type = SettingsStore.getValue("feature_element_call_video_rooms")
             ? RoomType.UnstableCall
@@ -189,6 +196,14 @@ export class RoomListHeaderViewModel
         // Record analytics for this action
         if (oldSortingAlgorithm) {
             PosthogTrackers.trackRoomListSortingAlgorithmChange(oldSortingAlgorithm, newSortingAlgorithm);
+        }
+    };
+
+    public navigateToParentSpace = (): void => {
+        if (!this.activeSpace) return;
+        const parent = this.props.spaceStore.getCanonicalParent(this.activeSpace.roomId);
+        if (parent) {
+            this.props.spaceStore.setActiveSpace(parent.roomId);
         }
     };
 
@@ -271,11 +286,19 @@ function computeHeaderSpaceState(
         activeSpace?.getJoinRule() === JoinRule.Public || activeSpace?.canInvite(matrixClient.getSafeUserId()),
     );
     const canAccessSpaceSettings = Boolean(activeSpace && shouldShowSpaceSettings(activeSpace));
+    const canCreateSubspace =
+        Boolean(activeSpace?.currentState.maySendStateEvent(EventType.SpaceChild, matrixClient.getSafeUserId())) &&
+        shouldShowComponent(UIComponent.CreateSpaces);
+
+    const parent = activeSpace ? spaceStore.getCanonicalParent(activeSpace.roomId) : null;
+    const parentSpaceName = parent?.name ?? undefined;
 
     return {
         title,
+        parentSpaceName,
         canCreateRoom,
         canCreateVideoRoom,
+        canCreateSubspace,
         displayComposeMenu,
         displaySpaceMenu,
         canInviteInSpace,

@@ -5,11 +5,15 @@
  * Please see LICENSE files in the repository root for full details.
  */
 
-import React, { useCallback, useState, type JSX, type ReactNode } from "react";
+import React, { useCallback, useEffect, useState, type JSX, type ReactNode } from "react";
 import { ChevronDownIcon, ChevronRightIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
 import type { RoomListViewModel } from "@element-hq/web-shared-components";
 
 import { ChannelListItem } from "./ChannelListItem";
+import { useMatrixClientContext } from "../../../../contexts/MatrixClientContext";
+import { RoomNotificationStateStore } from "../../../../stores/notifications/RoomNotificationStateStore";
+import { NotificationLevel } from "../../../../stores/notifications/NotificationLevel";
+import { NotificationStateEvents } from "../../../../stores/notifications/NotificationState";
 
 interface RoomCategorySectionProps {
     /** Category identifier for localStorage persistence (static CategoryId or dynamic subspace room ID) */
@@ -36,6 +40,46 @@ function getInitialCollapsed(id: string): boolean {
     }
 }
 
+function useNotificationCount(roomIds: string[]): number {
+    const matrixClient = useMatrixClientContext();
+    const [count, setCount] = useState(() => computeCount(roomIds, matrixClient));
+
+    useEffect(() => {
+        const handlers: Array<() => void> = [];
+        const states = roomIds
+            .map((id) => matrixClient.getRoom(id))
+            .filter(Boolean)
+            .map((room) => RoomNotificationStateStore.instance.getRoomState(room!));
+
+        const update = (): void => setCount(computeCount(roomIds, matrixClient));
+
+        for (const state of states) {
+            state.on(NotificationStateEvents.Update, update);
+            handlers.push(() => state.off(NotificationStateEvents.Update, update));
+        }
+
+        // Recompute in case rooms changed between render and effect
+        update();
+
+        return () => handlers.forEach((h) => h());
+    }, [roomIds, matrixClient]);
+
+    return count;
+}
+
+function computeCount(roomIds: string[], matrixClient: ReturnType<typeof useMatrixClientContext>): number {
+    let total = 0;
+    for (const roomId of roomIds) {
+        const room = matrixClient.getRoom(roomId);
+        if (!room) continue;
+        const state = RoomNotificationStateStore.instance.getRoomState(room);
+        if (state.level >= NotificationLevel.Notification) {
+            total += state.count;
+        }
+    }
+    return total;
+}
+
 /**
  * A collapsible category section in the categorized room list.
  * Renders a header with chevron + label + count, and a list of ChannelListItems.
@@ -49,6 +93,7 @@ export function RoomCategorySection({
     vm,
     selectedRoomId,
 }: RoomCategorySectionProps): JSX.Element {
+    const notificationCount = useNotificationCount(roomIds);
     const [isCollapsed, setIsCollapsed] = useState(() => getInitialCollapsed(id));
 
     const toggle = useCallback(() => {
@@ -74,7 +119,7 @@ export function RoomCategorySection({
                     {isCollapsed ? <ChevronRightIcon width="12" height="12" /> : <ChevronDownIcon width="12" height="12" />}
                 </span>
                 <span className="mx_RoomCategorySection_label">{label}</span>
-                <span className="mx_RoomCategorySection_count">{roomIds.length}</span>
+                {notificationCount > 0 && <span className="mx_RoomCategorySection_count">{notificationCount}</span>}
             </button>
             {!isCollapsed && (
                 <div className="mx_RoomCategorySection_rooms" role="listbox" aria-label={label}>

@@ -24,24 +24,28 @@ const RoomListHeaderViewWrapperImpl = ({
     createChatRoom,
     createRoom,
     createVideoRoom,
+    createSubspace,
     openSpaceHome,
     openSpaceSettings,
     inviteInSpace,
     openSpacePreferences,
     sort,
     toggleMessagePreview,
+    navigateToParentSpace,
     ...rest
 }: RoomListHeaderProps): JSX.Element => {
     const vm = useMockedViewModel(rest, {
         createChatRoom,
         createRoom,
         createVideoRoom,
+        createSubspace,
         openSpaceHome,
         openSpaceSettings,
         inviteInSpace,
         sort,
         openSpacePreferences,
         toggleMessagePreview,
+        navigateToParentSpace,
     });
     return <RoomListHeaderView vm={vm} />;
 };
@@ -56,12 +60,14 @@ const meta = {
         createChatRoom: fn(),
         createRoom: fn(),
         createVideoRoom: fn(),
+        createSubspace: fn(),
         openSpaceHome: fn(),
         openSpaceSettings: fn(),
         inviteInSpace: fn(),
         sort: fn(),
         openSpacePreferences: fn(),
         toggleMessagePreview: fn(),
+        navigateToParentSpace: fn(),
     },
     parameters: {
         design: {

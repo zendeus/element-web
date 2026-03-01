@@ -27,3 +27,27 @@
         text-overflow: ellipsis;
     }
 }
+
+.breadcrumb {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-sm-regular);
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.breadcrumb:hover {
+    text-decoration: underline;
+    color: var(--cpd-color-text-primary);
+}
+
+.separator {
+    color: var(--cpd-color-text-secondary);
+    flex-shrink: 0;
+}

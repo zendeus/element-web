@@ -44,6 +44,10 @@ export interface RoomListHeaderViewSnapshot {
      */
     canCreateVideoRoom: boolean;
     /**
+     * Whether the user can create a subspace in the active space
+     */
+    canCreateSubspace: boolean;
+    /**
      * Whether the user can invite in the active space
      */
     canInviteInSpace: boolean;
@@ -51,6 +55,11 @@ export interface RoomListHeaderViewSnapshot {
      * Whether the user can access space settings
      */
     canAccessSpaceSettings: boolean;
+    /**
+     * Name of the parent space, if viewing a subspace.
+     * Undefined on root spaces or Home.
+     */
+    parentSpaceName?: string;
     /**
      * The currently active sort option.
      */
@@ -75,6 +84,10 @@ export interface RoomListHeaderViewActions {
      */
     createVideoRoom: () => void;
     /**
+     * Create a subspace in the active space
+     */
+    createSubspace: () => void;
+    /**
      * Open the active space home
      */
     openSpaceHome: () => void;
@@ -98,6 +111,10 @@ export interface RoomListHeaderViewActions {
      * Toggle message preview display in the room list.
      */
     toggleMessagePreview: () => void;
+    /**
+     * Navigate to the parent space of the current subspace.
+     */
+    navigateToParentSpace: () => void;
 }
 
 /**
@@ -123,7 +140,7 @@ interface RoomListHeaderViewProps {
  */
 export function RoomListHeaderView({ vm }: Readonly<RoomListHeaderViewProps>): JSX.Element {
     const { translate: _t } = useI18n();
-    const { title, displaySpaceMenu, displayComposeMenu } = useViewModel(vm);
+    const { title, displaySpaceMenu, displayComposeMenu, parentSpaceName } = useViewModel(vm);
 
     return (
         <Flex
@@ -135,6 +152,14 @@ export function RoomListHeaderView({ vm }: Readonly<RoomListHeaderViewProps>): J
         >
             <Flex className={styles.container} justify="space-between" align="center" gap="var(--cpd-space-3x)">
                 <Flex className={styles.title} align="center" gap="var(--cpd-space-1x)">
+                    {parentSpaceName && (
+                        <>
+                            <button className={styles.breadcrumb} onClick={() => vm.navigateToParentSpace()}>
+                                {parentSpaceName}
+                            </button>
+                            <span className={styles.separator}>/</span>
+                        </>
+                    )}
                     <H1 size="sm" title={title}>
                         {title}
                     </H1>

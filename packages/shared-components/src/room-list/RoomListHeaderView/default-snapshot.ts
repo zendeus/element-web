@@ -13,8 +13,10 @@ export const defaultSnapshot: RoomListHeaderViewSnapshot = {
     displaySpaceMenu: true,
     canCreateRoom: true,
     canCreateVideoRoom: true,
+    canCreateSubspace: true,
     canInviteInSpace: true,
     canAccessSpaceSettings: true,
+    parentSpaceName: undefined,
     activeSortOption: "recent",
     isMessagePreviewEnabled: true,
 };

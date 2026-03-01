@@ -35,7 +35,7 @@ interface ComposeMenuViewProps {
 export function ComposeMenuView({ vm }: ComposeMenuViewProps): JSX.Element {
     const { translate: _t } = useI18n();
     const [open, setOpen] = useState(false);
-    const { canCreateRoom, canCreateVideoRoom } = useViewModel(vm);
+    const { canCreateRoom, canCreateVideoRoom, canCreateSubspace } = useViewModel(vm);
 
     return (
         <Menu
@@ -60,6 +60,14 @@ export function ComposeMenuView({ vm }: ComposeMenuViewProps): JSX.Element {
                     Icon={VideoCallIcon}
                     label={_t("action|new_video_room")}
                     onSelect={vm.createVideoRoom}
+                    hideChevron
+                />
+            )}
+            {canCreateSubspace && (
+                <MenuItem
+                    Icon={RoomIcon}
+                    label={_t("action|new_subspace")}
+                    onSelect={vm.createSubspace}
                     hideChevron
                 />
             )}
