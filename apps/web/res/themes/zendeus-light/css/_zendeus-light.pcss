@@ -333,3 +333,93 @@ $selected-color: $secondary-accent-color;
     background: #fecaca;
 }
 /* ******************** */
+
+/* ******************** */
+/* Compound Design Token Overrides */
+/* Override the --cpd-color-* CSS custom properties that Compound components use directly */
+/* ******************** */
+@layer compound.custom {
+    :root, [class*="cpd-theme-"] {
+        /* Gray scale — slate-tinted */
+        --cpd-color-gray-100: #F8FAFC;
+        --cpd-color-gray-200: #F1F5F9;
+        --cpd-color-gray-300: #E2E8F0;
+        --cpd-color-gray-400: #CBD5E1;
+        --cpd-color-gray-500: #94A3B8;
+        --cpd-color-gray-600: #64748B;
+        --cpd-color-gray-700: #475569;
+        --cpd-color-gray-800: #334155;
+        --cpd-color-gray-900: #1E293B;
+        --cpd-color-gray-1000: #1E293B;
+        --cpd-color-gray-1100: #0F172A;
+        --cpd-color-gray-1200: #0F172A;
+        --cpd-color-gray-1300: #0F172A;
+        --cpd-color-gray-1400: #0F172A;
+
+        /* Green scale — remapped to sky-blue */
+        --cpd-color-green-100: #f0f9ff;
+        --cpd-color-green-200: #e0f2fe;
+        --cpd-color-green-300: #bae6fd;
+        --cpd-color-green-400: #7dd3fc;
+        --cpd-color-green-500: #38bdf8;
+        --cpd-color-green-600: #0ea5e9;
+        --cpd-color-green-700: #0284c7;
+        --cpd-color-green-800: #0369a1;
+        --cpd-color-green-900: #0EA5E9;
+        --cpd-color-green-1000: #0284c7;
+        --cpd-color-green-1100: #0369a1;
+        --cpd-color-green-1200: #075985;
+        --cpd-color-green-1300: #0c4a6e;
+        --cpd-color-green-1400: #082f49;
+
+        /* Alpha grays */
+        --cpd-color-alpha-gray-300: hsla(215, 20%, 40%, 0.06);
+        --cpd-color-alpha-gray-1300: hsla(215, 25%, 10%, 0.5);
+
+        /* Background tokens */
+        --cpd-color-theme-bg: #F8FAFC;
+        --cpd-color-bg-canvas-default: #F8FAFC;
+        --cpd-color-bg-subtle-primary: #F1F5F9;
+        --cpd-color-bg-subtle-secondary: #E2E8F0;
+        --cpd-color-bg-action-primary-rest: #0EA5E9;
+        --cpd-color-bg-action-primary-hovered: #0284C7;
+        --cpd-color-bg-action-primary-pressed: #0369A1;
+        --cpd-color-bg-action-secondary-hovered: rgba(14, 165, 233, 0.06);
+        --cpd-color-bg-action-tertiary-hovered: #E2E8F0;
+        --cpd-color-bg-action-tertiary-selected: #CBD5E1;
+        --cpd-color-bg-accent-rest: #0EA5E9;
+
+        /* Text tokens */
+        --cpd-color-text-primary: #0F172A;
+        --cpd-color-text-secondary: #475569;
+        --cpd-color-text-action-accent: #0EA5E9;
+        --cpd-color-text-link-external: #0EA5E9;
+        --cpd-color-text-critical-primary: #DC2626;
+        --cpd-color-text-success-primary: #0EA5E9;
+        --cpd-color-text-info-primary: #0EA5E9;
+        --cpd-color-text-on-solid-primary: #FFFFFF;
+
+        /* Icon tokens */
+        --cpd-color-icon-primary: #0F172A;
+        --cpd-color-icon-secondary: #475569;
+        --cpd-color-icon-tertiary: #64748B;
+        --cpd-color-icon-on-solid-primary: #FFFFFF;
+        --cpd-color-icon-success-primary: #0EA5E9;
+        --cpd-color-icon-critical-primary: #DC2626;
+        --cpd-color-icon-accent-tertiary: #0EA5E9;
+
+        /* Border tokens */
+        --cpd-color-border-interactive-primary: #94A3B8;
+        --cpd-color-border-interactive-secondary: #CBD5E1;
+        --cpd-color-border-interactive-hovered: #64748B;
+        --cpd-color-border-disabled: #E2E8F0;
+
+        /* Username / decorative colors — darker blue-steel for light bg */
+        --cpd-color-text-decorative-1: #0369A1;
+        --cpd-color-text-decorative-2: #1D4ED8;
+        --cpd-color-text-decorative-3: #4338CA;
+        --cpd-color-text-decorative-4: #0284C7;
+        --cpd-color-text-decorative-5: #334155;
+        --cpd-color-text-decorative-6: #0E7490;
+    }
+}
