@@ -19,9 +19,9 @@ Please see LICENSE files in the repository root for full details.
         font-size: $font-13px;
         margin-top: 8px;
 
-        /* We don't use variables on the colours because we want it to be the same */
-        /* in all themes. */
-        background-color: #17191c;
-        color: #fff;
+        background-color: var(--cpd-color-bg-subtle-secondary);
+        color: var(--cpd-color-text-primary);
+        border: 1px solid var(--cpd-color-border-interactive-secondary);
+        box-shadow: var(--zendeus-shadow-md, 0 4px 16px rgba(0, 0, 0, 0.1));
     }
 }

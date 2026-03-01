@@ -284,7 +284,7 @@ $call-light-quaternary-content: #94A3B8;
 /* ******************** */
 $pinned-color: $tertiary-content;
 $avatar-initial-color: $background;
-$primary-hairline-color: transparent;
+$primary-hairline-color: #E2E8F0;
 $secondary-hairline-color: #E2E8F0;
 $focus-brightness: 105%;
 /* ******************** */
@@ -307,6 +307,15 @@ body {
     color-scheme: light;
 }
 
+/* Splash Page Gradient — sky-blue tinted for light theme */
+.mx_SplashPage::before {
+    background-image:
+        radial-gradient(53.85% 66.75% at 87.55% 0%, hsla(199deg, 89%, 48%, 0.12) 0%, hsla(199deg, 100%, 88%, 0) 100%),
+        radial-gradient(41.93% 41.93% at 0% 0%, hsla(215deg, 25%, 40%, 0.1) 0%, hsla(199deg, 100%, 88%, 0) 100%),
+        radial-gradient(100% 100% at 0% 0%, hsla(199deg, 89%, 60%, 0.08) 0%, hsla(199deg, 100%, 86%, 0) 100%),
+        radial-gradient(106.35% 96.26% at 100% 0%, hsla(199deg, 89%, 48%, 0.12) 0%, hsla(180deg, 76%, 82%, 0) 100%) !important;
+}
+
 /* One-off colors */
 /* ******************** */
 $progressbar-bg-color: #E2E8F0;
@@ -326,7 +335,7 @@ $selected-color: $secondary-accent-color;
 /* diff highlight colors */
 /* ******************** */
 .hljs-addition {
-    background: #bbf7d0;
+    background: #e0f2fe;
 }
 
 .hljs-deletion {
@@ -363,6 +372,22 @@ $selected-color: $secondary-accent-color;
         --cpd-color-alpha-gray-400: hsla(215, 20%, 40%, 0.1);
         --cpd-color-alpha-gray-500: hsla(215, 20%, 40%, 0.15);
         --cpd-color-alpha-gray-1300: hsla(215, 25%, 10%, 0.5);
+
+        /* Blue scale — aligned with sky-blue accent */
+        --cpd-color-blue-100: #f0f9ff;
+        --cpd-color-blue-200: #e0f2fe;
+        --cpd-color-blue-300: #bae6fd;
+        --cpd-color-blue-400: #7dd3fc;
+        --cpd-color-blue-500: #38bdf8;
+        --cpd-color-blue-600: #0ea5e9;
+        --cpd-color-blue-700: #0284c7;
+        --cpd-color-blue-800: #0369a1;
+        --cpd-color-blue-900: #0EA5E9;
+        --cpd-color-blue-1000: #0284c7;
+        --cpd-color-blue-1100: #0369a1;
+        --cpd-color-blue-1200: #075985;
+        --cpd-color-blue-1300: #0c4a6e;
+        --cpd-color-blue-1400: #082f49;
 
         /* Green scale — remapped to sky-blue */
         --cpd-color-green-100: #f0f9ff;
@@ -458,6 +483,14 @@ $selected-color: $secondary-accent-color;
         --cpd-color-border-critical-primary: #DC2626;
         --cpd-color-border-critical-hovered: #B91C1C;
         --cpd-color-border-critical-subtle: #F87171;
+
+        /* Focus border — aligned with sky-blue */
+        --cpd-color-border-focused: #0EA5E9;
+
+        /* Shadow elevation tokens — subtle on light backgrounds */
+        --zendeus-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+        --zendeus-shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+        --zendeus-shadow-lg: 0 8px 32px rgba(15, 23, 42, 0.12);
 
         /* Username / decorative colors — darker blue-steel for light bg */
         --cpd-color-text-decorative-1: #0369A1;

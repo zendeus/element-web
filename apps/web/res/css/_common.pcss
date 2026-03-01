@@ -329,11 +329,16 @@ legend {
     max-height: calc(100% - var(--cpd-space-6x));
     display: flex;
     flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    animation: mx_Dialog_open 200ms cubic-bezier(0.2, 0, 0, 1);
 
     .mx_Dialog_lightbox & {
         /* The lightbox isn't so much of a dialog as a fullscreen overlay. We
         don't want the glass border. */
         display: contents;
+        border-radius: 0;
+        animation: none;
     }
 }
 

@@ -220,6 +220,11 @@ Please see LICENSE files in the repository root for full details.
     background-color: var(--cpd-color-icon-accent-tertiary);
     height: 16px;
     width: 16px;
+    transition: transform 0.1s ease;
+
+    &:active {
+        transform: scale(0.9);
+    }
 
     svg {
         height: inherit;

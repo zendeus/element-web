@@ -205,7 +205,7 @@ $voice-record-icon-color: $quaternary-content;
 /* Bubble tiles */
 /* ******************** */
 $eventbubble-self-bg: #0c4a6e;
-$eventbubble-others-bg: #1e293b;
+$eventbubble-others-bg: #243044;
 $eventbubble-bg-hover: #1E1E2A;
 /* ******************** */
 
@@ -237,7 +237,7 @@ $location-live-color: #38BDF8;
 $location-live-secondary-color: #bae6fd;
 /* ******************** */
 
-/* Location sharing */
+/* Map */
 /* ******************** */
 .maplibregl-ctrl-attrib-button {
     color: $background;
@@ -248,7 +248,7 @@ $location-live-secondary-color: #bae6fd;
 /* ******************** */
 $progressbar-bg-color: #1e293b;
 $kbd-border-color: #334155;
-$visual-bell-bg-color: #800;
+$visual-bell-bg-color: #1a0a2e;
 $event-timestamp-color: #64748B;
 $composer-shadow-color: rgba(0, 0, 0, 0.28);
 $breadcrumb-placeholder-bg-color: #1e293b;
@@ -347,6 +347,22 @@ body {
         --cpd-color-alpha-gray-500: hsla(220, 30%, 70%, 0.15);
         --cpd-color-alpha-gray-1300: hsla(220, 50%, 95%, 0.89);
 
+        /* Blue scale — aligned with sky-blue accent */
+        --cpd-color-blue-100: #082f49;
+        --cpd-color-blue-200: #0c4a6e;
+        --cpd-color-blue-300: #075985;
+        --cpd-color-blue-400: #0369a1;
+        --cpd-color-blue-500: #0284c7;
+        --cpd-color-blue-600: #0ea5e9;
+        --cpd-color-blue-700: #0ea5e9;
+        --cpd-color-blue-800: #22b8f8;
+        --cpd-color-blue-900: #38bdf8;
+        --cpd-color-blue-1000: #7dd3fc;
+        --cpd-color-blue-1100: #7dd3fc;
+        --cpd-color-blue-1200: #bae6fd;
+        --cpd-color-blue-1300: #e0f2fe;
+        --cpd-color-blue-1400: #f0f9ff;
+
         /* Green scale — remapped to sky-blue */
         --cpd-color-green-100: #082f49;
         --cpd-color-green-200: #0c4a6e;
@@ -354,8 +370,8 @@ body {
         --cpd-color-green-400: #0369a1;
         --cpd-color-green-500: #0284c7;
         --cpd-color-green-600: #0ea5e9;
-        --cpd-color-green-700: #38bdf8;
-        --cpd-color-green-800: #38bdf8;
+        --cpd-color-green-700: #0ea5e9;
+        --cpd-color-green-800: #22b8f8;
         --cpd-color-green-900: #38bdf8;
         --cpd-color-green-1000: #7dd3fc;
         --cpd-color-green-1100: #7dd3fc;
@@ -441,6 +457,14 @@ body {
         --cpd-color-border-critical-primary: #F87171;
         --cpd-color-border-critical-hovered: #FCA5A5;
         --cpd-color-border-critical-subtle: #5c1d2e;
+
+        /* Focus border — aligned with sky-blue */
+        --cpd-color-border-focused: #38bdf8;
+
+        /* Shadow elevation tokens — visible on dark backgrounds */
+        --zendeus-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --zendeus-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --zendeus-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
 
         /* Username / decorative colors — blue-steel palette */
         --cpd-color-text-decorative-1: #7DD3FC;

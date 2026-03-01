@@ -141,7 +141,7 @@ export function RoomCategorySection({
     }, [spaceId]);
 
     return (
-        <div className={`mx_RoomCategorySection${isSubspace ? " mx_RoomCategorySection_subspace" : ""}`}>
+        <div className={`mx_RoomCategorySection${isSubspace ? " mx_RoomCategorySection_subspace" : ""}`} role="group" aria-label={label}>
             <button
                 className="mx_RoomCategorySection_header"
                 onClick={toggle}
