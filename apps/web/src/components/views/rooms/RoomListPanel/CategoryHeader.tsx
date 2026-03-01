@@ -26,6 +26,8 @@ interface CategoryHeaderProps {
     onToggle: () => void;
     isSubspace?: boolean;
     spaceId?: string;
+    /** Whether to show a divider line above this header (e.g. subspace/category boundary) */
+    showDivider?: boolean;
 }
 
 /**
@@ -41,6 +43,7 @@ export function CategoryHeader({
     onToggle,
     isSubspace,
     spaceId,
+    showDivider,
 }: CategoryHeaderProps): JSX.Element {
     const notificationCount = useNotificationCount(roomIds);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -65,7 +68,7 @@ export function CategoryHeader({
 
     return (
         <div
-            className={`mx_RoomCategorySection${isSubspace ? " mx_RoomCategorySection_subspace" : ""}`}
+            className={`mx_RoomCategorySection${isSubspace ? " mx_RoomCategorySection_subspace" : ""}${showDivider ? " mx_RoomCategorySection_divider" : ""}`}
             role="group"
             aria-label={label}
         >
@@ -74,9 +77,9 @@ export function CategoryHeader({
                     <ChevronRightIcon width="12" height="12" />
                 </span>
                 <span className="mx_RoomCategorySection_label">{label}</span>
-                {(isCollapsed || notificationCount > 0) && (
+                {notificationCount > 0 && (
                     <span className="mx_RoomCategorySection_count">
-                        {isCollapsed ? `(${roomCount})` : notificationCount}
+                        {notificationCount}
                     </span>
                 )}
                 {isSubspace && spaceId && (

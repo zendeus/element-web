@@ -84,23 +84,25 @@ Please see LICENSE files in the repository root for full details.
         display: flex;
         flex-direction: column;
         min-width: 0;
-        gap: 24px;
+        gap: var(--cpd-space-6x);
 
         .mx_SpaceRoomView_landing_hero {
             background: $system;
             border: 1px solid $separator;
             border-radius: 16px;
-            padding: 28px;
+            padding: var(--cpd-space-7x);
+            box-shadow: var(--zendeus-shadow-sm);
         }
 
         .mx_SpaceRoomView_landing_hero_header {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: var(--cpd-space-5x);
 
             .mx_BaseAvatar {
                 flex-shrink: 0;
                 border-radius: 12px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             }
         }
 
@@ -174,10 +176,10 @@ Please see LICENSE files in the repository root for full details.
         }
 
         .mx_SpaceRoomView_landing_topic {
-            font-size: $font-15px;
+            font: var(--cpd-font-body-md-regular);
             color: $secondary-content;
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: var(--cpd-space-5x);
+            padding-top: var(--cpd-space-5x);
             border-top: 1px solid $separator;
             white-space: pre-wrap;
             word-wrap: break-word;
@@ -205,7 +207,7 @@ Please see LICENSE files in the repository root for full details.
         }
 
         .mx_SearchBox {
-            margin: 0 0 20px;
+            margin: 0 0 var(--cpd-space-5x);
             flex: 0;
         }
     }

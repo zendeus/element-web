@@ -15,8 +15,13 @@ Please see LICENSE files in the repository root for full details.
         margin: 24px 0 16px;
     }
 
-    /* Improved search input styling */
-    .mx_textinput,
+    /* Search wrapper — transparent to avoid ghost double-box */
+    .mx_textinput {
+        background-color: transparent;
+        border: none;
+    }
+
+    /* Search input — all visual styling here */
     input.mx_textinput_icon {
         background-color: $system;
         border: 1px solid $separator;
@@ -28,7 +33,7 @@ Please see LICENSE files in the repository root for full details.
 
         &:focus {
             border-color: $accent;
-            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+            box-shadow: 0 0 0 2px var(--cpd-color-bg-accent-selected);
             outline: none;
         }
 
@@ -52,11 +57,13 @@ Please see LICENSE files in the repository root for full details.
         flex-flow: wrap;
         justify-content: space-between;
         align-items: center;
-        gap: 12px;
+        gap: var(--cpd-space-3x);
         font-size: $font-15px;
         line-height: $font-24px;
         color: $primary-content;
-        margin-bottom: 12px;
+        margin-bottom: var(--cpd-space-3x);
+        padding-bottom: var(--cpd-space-3x);
+        border-bottom: 1px solid $separator;
 
         .mx_SpaceHierarchy_listHeader_header {
             grid-column-start: 1;
@@ -124,18 +131,24 @@ Please see LICENSE files in the repository root for full details.
 
     .mx_SpaceHierarchy_subspace_toggle {
         position: absolute;
-        left: -1px;
-        top: 10px;
-        height: 16px;
-        width: 16px;
+        left: -3px;
+        top: 8px;
+        height: 20px;
+        width: 20px;
         border-radius: 4px;
-        background-color: $background;
+        background-color: $system;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+            background-color: $panel-actions;
+        }
 
         svg {
             width: inherit;
             height: inherit;
             color: $tertiary-content;
             transform: rotate(270deg);
+            transition: transform 0.15s ease;
         }
 
         &.mx_SpaceHierarchy_subspace_toggle_shown svg {
@@ -158,27 +171,38 @@ Please see LICENSE files in the repository root for full details.
 
             .mx_SpaceHierarchy_roomTile {
                 position: relative;
-                padding: 8px 16px;
+                padding: var(--cpd-space-3x) var(--cpd-space-4x);
                 border-radius: 8px;
                 box-sizing: border-box;
+                min-height: 52px;
+                transition: background-color 0.1s ease;
 
                 display: flex;
                 flex-wrap: wrap;
-                gap: 6px 12px;
+                gap: var(--cpd-space-1-5x) var(--cpd-space-3x);
 
                 .mx_SpaceHierarchy_roomTile_item {
                     font-weight: var(--cpd-font-weight-semibold);
                     font-size: $font-15px;
                     line-height: $font-18px;
                     display: grid;
-                    grid-template-columns: 20px auto;
-                    gap: 6px 8px;
+                    grid-template-columns: 32px auto;
+                    gap: var(--cpd-space-1-5x) var(--cpd-space-2x);
                     align-items: center;
                     flex: 1; /* wrap action buttons */
 
                     .mx_SpaceHierarchy_roomTile_avatar {
-                        grid-row: 1;
+                        grid-row: 1 / 3;
                         grid-column: 1;
+                        align-self: center;
+
+                        /* Enlarge avatar from 20px to 32px */
+                        img,
+                        span {
+                            width: 32px !important;
+                            height: 32px !important;
+                            border-radius: 8px;
+                        }
                     }
 
                     .mx_SpaceHierarchy_roomTile_name {
@@ -234,7 +258,6 @@ Please see LICENSE files in the repository root for full details.
                         line-height: $font-24px;
                         padding: 4px 16px;
                         display: inline-block;
-                        visibility: hidden;
                     }
 
                     .mx_AccessibleButton_kind_danger_outline,
@@ -245,16 +268,11 @@ Please see LICENSE files in the repository root for full details.
 
                 &:hover,
                 &:focus-within {
-                    background-color: $spacePanel-bg-color;
-
-                    .mx_AccessibleButton {
-                        visibility: visible;
-                    }
+                    background-color: var(--cpd-color-bg-action-secondary-hovered);
                 }
 
                 &.mx_SpaceHierarchy_joining {
                     .mx_AccessibleButton {
-                        visibility: visible;
                         padding: 4px 18px;
                     }
                 }
@@ -267,7 +285,7 @@ Please see LICENSE files in the repository root for full details.
         &::before {
             content: "";
             position: absolute;
-            background-color: $spacePanel-bg-color;
+            background-color: $separator;
             width: 1px;
             height: 100%;
             left: 6px;
@@ -287,7 +305,7 @@ Please see LICENSE files in the repository root for full details.
     > hr {
         border: none;
         height: 1px;
-        background-color: rgb(141, 151, 165, 0.2);
+        background-color: $separator;
         margin: 20px 0;
     }
 

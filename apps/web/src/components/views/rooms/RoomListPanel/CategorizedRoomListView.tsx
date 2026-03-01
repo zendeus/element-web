@@ -118,6 +118,8 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
         (index: number) => {
             const cat = categories[index];
             if (!cat) return null;
+            const prev = index > 0 ? categories[index - 1] : undefined;
+            const showDivider = prev !== undefined && !!prev.isSubspace !== !!cat.isSubspace;
             return (
                 <CategoryHeader
                     key={cat.id}
@@ -129,6 +131,7 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
                     onToggle={() => toggle(cat.id)}
                     isSubspace={cat.isSubspace}
                     spaceId={cat.isSubspace ? cat.id : undefined}
+                    showDivider={showDivider}
                 />
             );
         },

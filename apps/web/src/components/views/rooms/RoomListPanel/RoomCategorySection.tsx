@@ -155,9 +155,9 @@ export function RoomCategorySection({
                     <ChevronRightIcon width="12" height="12" />
                 </span>
                 <span className="mx_RoomCategorySection_label">{label}</span>
-                {(isCollapsed || notificationCount > 0) && (
+                {notificationCount > 0 && (
                     <span className="mx_RoomCategorySection_count">
-                        {isCollapsed ? `(${roomIds.length})` : notificationCount}
+                        {notificationCount}
                     </span>
                 )}
                 {isSubspace && spaceId && (
