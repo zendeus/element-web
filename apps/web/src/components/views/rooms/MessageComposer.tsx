@@ -18,7 +18,7 @@ import {
 } from "matrix-js-sdk/src/matrix";
 import { Tooltip } from "@vector-im/compound-web";
 import { logger } from "matrix-js-sdk/src/logger";
-import { LockOffIcon, SendSolidIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
+import { LockOffIcon, LockSolidIcon, SendSolidIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
 
 import { _t } from "../../../languageHandler";
 import { MatrixClientPeg } from "../../../MatrixClientPeg";
@@ -537,13 +537,27 @@ export class MessageComposer extends React.Component<IProps, IState> {
                                 aria-label={_t("composer|room_unencrypted")}
                                 width="12px"
                                 height="12px"
-                                color="var(--cpd-color-icon-info-primary)"
+                                color="var(--cpd-color-icon-tertiary)"
                                 className="mx_E2EIcon mx_MessageComposer_e2eIcon"
                             />
                         </Tooltip>
                     </div>
                 );
-            } else if (this.props.e2eStatus !== E2EStatus.Normal) {
+            } else if (this.props.e2eStatus === E2EStatus.Normal) {
+                leftIcon = (
+                    <div className="mx_MessageComposer_e2eIconWrapper">
+                        <Tooltip label={_t("composer|placeholder_encrypted")}>
+                            <LockSolidIcon
+                                aria-label={_t("composer|placeholder_encrypted")}
+                                width="12px"
+                                height="12px"
+                                color="var(--cpd-color-icon-success-primary)"
+                                className="mx_E2EIcon mx_MessageComposer_e2eIcon"
+                            />
+                        </Tooltip>
+                    </div>
+                );
+            } else {
                 leftIcon = (
                     <div className="mx_MessageComposer_e2eIconWrapper">
                         <E2EIcon

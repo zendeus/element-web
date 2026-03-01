@@ -57,7 +57,7 @@ $accent-1400: #000000;
 /* ******************** */
 $inverted-bg-color: #0EA5E9;
 $header-panel-bg-color: #F1F5F9;
-$header-panel-bg-hover: #E2E8F0;
+$header-panel-bg-hover: rgba(14, 165, 233, 0.04);
 /* ******************** */
 
 /* Theme specific colors */
@@ -289,6 +289,18 @@ $secondary-hairline-color: #E2E8F0;
 $focus-brightness: 105%;
 /* ******************** */
 
+/* Avatar background colors for canvas fallback (pills, mentions) */
+/* ******************** */
+:root {
+    --avatar-background-colors_1: #e0f2fe;
+    --avatar-background-colors_2: #e0e7ff;
+    --avatar-background-colors_3: #ccfbf1;
+    --avatar-background-colors_4: #ede9fe;
+    --avatar-background-colors_5: #cffafe;
+    --avatar-background-colors_6: #fae8ff;
+}
+/* ******************** */
+
 /* blur amounts for left panel */
 /* ******************** */
 :root {
@@ -305,6 +317,25 @@ $location-live-secondary-color: #7dd3fc;
 
 body {
     color-scheme: light;
+}
+
+/* Dialog glass border — subtle thin border instead of thick frosted glass */
+.mx_Dialog_wrapper .mx_Dialog_border {
+    padding: 1px;
+    background: $separator;
+    outline: none;
+    backdrop-filter: none;
+    border-radius: 14px;
+
+    /* Override Glass module's inner child radius to match outer - padding */
+    > :first-child {
+        border-radius: 13px;
+    }
+}
+
+/* Space button — match selection wrapper radius to avatar curvature */
+.mx_SpacePanel .mx_SpaceButton.mx_SpaceButton_narrow .mx_SpaceButton_selectionWrapper {
+    border-radius: 11px;
 }
 
 /* Splash Page Gradient — sky-blue tinted for light theme */
@@ -487,6 +518,14 @@ $selected-color: $secondary-accent-color;
         /* Focus border — aligned with sky-blue */
         --cpd-color-border-focused: #0EA5E9;
 
+        /* Gradient tokens — subtle, theme-fitting gradients */
+        --cpd-color-gradient-critical-stop1: rgba(220, 38, 38, 0.06);
+        --cpd-color-gradient-critical-stop2: var(--cpd-color-theme-bg);
+        --cpd-color-gradient-critical-linear: linear-gradient(180deg, rgba(220, 38, 38, 0.06) 0%, var(--cpd-color-theme-bg) 100%);
+        --cpd-color-gradient-info-stop1: rgba(14, 165, 233, 0.06);
+        --cpd-color-gradient-info-stop2: var(--cpd-color-theme-bg);
+        --cpd-color-gradient-info-linear: linear-gradient(180deg, rgba(14, 165, 233, 0.06) 0%, var(--cpd-color-theme-bg) 100%);
+
         /* Shadow elevation tokens — subtle on light backgrounds */
         --zendeus-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
         --zendeus-shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
@@ -499,5 +538,13 @@ $selected-color: $secondary-accent-color;
         --cpd-color-text-decorative-4: #7c3aed;
         --cpd-color-text-decorative-5: #0891b2;
         --cpd-color-text-decorative-6: #9333ea;
+
+        /* Avatar background colors — light pastels matching the text decorative palette */
+        --cpd-color-bg-decorative-1: #e0f2fe;
+        --cpd-color-bg-decorative-2: #e0e7ff;
+        --cpd-color-bg-decorative-3: #ccfbf1;
+        --cpd-color-bg-decorative-4: #ede9fe;
+        --cpd-color-bg-decorative-5: #cffafe;
+        --cpd-color-bg-decorative-6: #fae8ff;
     }
 }

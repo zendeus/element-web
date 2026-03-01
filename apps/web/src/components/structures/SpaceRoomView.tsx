@@ -270,26 +270,28 @@ const SpaceLanding: React.FC<{ space: Room }> = ({ space }) => {
 
     return (
         <div className="mx_SpaceRoomView_landing">
-            <div className="mx_SpaceRoomView_landing_header">
-                <RoomAvatar room={space} size="80px" viewAvatarOnClick={true} type="square" />
-            </div>
-            <div className="mx_SpaceRoomView_landing_name">
-                {_t("space|landing_welcome", {}, { name: () => <h1>{name}</h1> })}
-            </div>
-            <div className="mx_SpaceRoomView_landing_infoBar">
-                <RoomInfoLine room={space} />
-                <div className="mx_SpaceRoomView_landing_infoBar_interactive">
+            <div className="mx_SpaceRoomView_landing_hero">
+                <div className="mx_SpaceRoomView_landing_hero_header">
+                    <RoomAvatar room={space} size="72px" viewAvatarOnClick={true} type="square" />
+                    <div className="mx_SpaceRoomView_landing_hero_info">
+                        <h1>{name}</h1>
+                        <RoomInfoLine room={space} />
+                    </div>
+                    <div className="mx_SpaceRoomView_landing_hero_actions">
+                        {inviteButton}
+                        {settingsButton}
+                    </div>
+                </div>
+                <RoomTopic room={space} className="mx_SpaceRoomView_landing_topic" />
+                <div className="mx_SpaceRoomView_landing_hero_members">
                     <RoomFacePile
                         room={space}
                         onlyKnownUsers={false}
                         numShown={7}
                         onClick={isShowingMembers ? undefined : onMembersClick}
                     />
-                    {inviteButton}
-                    {settingsButton}
                 </div>
             </div>
-            <RoomTopic room={space} className="mx_SpaceRoomView_landing_topic" />
 
             <SpaceHierarchy space={space} showRoom={showRoom} additionalButtons={addRoomButton} />
         </div>

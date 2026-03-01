@@ -84,106 +84,124 @@ Please see LICENSE files in the repository root for full details.
         display: flex;
         flex-direction: column;
         min-width: 0;
+        gap: 24px;
 
-        .mx_SpaceRoomView_landing_header {
-            display: flex;
-            justify-content: space-between;
-
-            .mx_BaseAvatar {
-                width: 80px;
-            }
+        .mx_SpaceRoomView_landing_hero {
+            background: $system;
+            border: 1px solid $separator;
+            border-radius: 16px;
+            padding: 28px;
         }
 
-        .mx_SpaceRoomView_landing_name {
-            margin: 24px 0 16px;
-            font-size: $font-15px;
-            color: $secondary-content;
-
-            > span {
-                display: flex;
-                flex-flow: column;
-                gap: 12px 0;
-
-                h1 {
-                    display: inline-block;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    width: 100%;
-                }
-            }
-
-            .mx_SpaceRoomView_landing_inviter {
-                .mx_BaseAvatar {
-                    margin-right: 4px;
-                    vertical-align: middle;
-                }
-            }
-        }
-
-        .mx_SpaceRoomView_landing_infoBar {
+        .mx_SpaceRoomView_landing_hero_header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 20px;
+
+            .mx_BaseAvatar {
+                flex-shrink: 0;
+                border-radius: 12px;
+            }
+        }
+
+        .mx_SpaceRoomView_landing_hero_info {
+            flex: 1;
+            min-width: 0;
+
+            h1 {
+                margin: 0;
+                font-size: $font-24px;
+                font-weight: var(--cpd-font-weight-semibold);
+                color: $primary-content;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: auto;
+            }
+
+            .mx_RoomInfoLine {
+                margin-top: 4px;
+            }
+        }
+
+        .mx_SpaceRoomView_landing_hero_actions {
+            display: flex;
+            align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
-            line-height: $font-24px;
+            flex-shrink: 0;
 
-            .mx_SpaceRoomView_landing_infoBar_interactive {
+            .mx_SpaceRoomView_landing_inviteButton,
+            .mx_SpaceRoomView_landing_settingsButton {
+                position: relative;
+
+                svg {
+                    position: absolute;
+                }
+            }
+
+            .mx_SpaceRoomView_landing_inviteButton {
+                padding: 4px 18px 4px 40px;
+                height: min-content;
+
+                svg {
+                    left: 8px;
+                    height: 16px;
+                    width: 16px;
+                    color: var(--cpd-color-icon-on-solid-primary);
+                }
+            }
+
+            .mx_SpaceRoomView_landing_settingsButton {
+                width: 32px;
+                height: 32px;
                 display: flex;
-                flex-wrap: wrap;
                 align-items: center;
-                gap: 12px 12px;
+                justify-content: center;
+                border-radius: 8px;
+                transition: background 0.15s ease;
 
-                .mx_FacePile {
-                    display: inline-block;
-                    cursor: pointer;
-                    /* For enhanced visibility under contrast control */
-                    outline: 1px solid transparent;
+                &:hover {
+                    background: $panel-actions;
                 }
 
-                .mx_SpaceRoomView_landing_inviteButton,
-                .mx_SpaceRoomView_landing_settingsButton {
-                    position: relative;
-
-                    svg {
-                        position: absolute;
-                    }
-                }
-
-                .mx_SpaceRoomView_landing_inviteButton {
-                    padding: 4px 18px 4px 40px;
-                    height: min-content;
-
-                    svg {
-                        left: 8px;
-                        height: 16px;
-                        width: 16px;
-                        color: var(--cpd-color-icon-on-solid-primary);
-                    }
-                }
-
-                .mx_SpaceRoomView_landing_settingsButton {
-                    width: 24px;
-                    height: 24px;
-
-                    svg {
-                        left: 0;
-                        top: 0;
-                        height: 24px;
-                        width: 24px;
-                        color: $tertiary-content;
-                    }
+                svg {
+                    position: static;
+                    height: 20px;
+                    width: 20px;
+                    color: $tertiary-content;
                 }
             }
         }
 
         .mx_SpaceRoomView_landing_topic {
             font-size: $font-15px;
-            margin-top: 12px;
-            margin-bottom: 16px;
+            color: $secondary-content;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid $separator;
             white-space: pre-wrap;
             word-wrap: break-word;
+            line-height: 1.5;
+
+            &:empty {
+                display: none;
+            }
+        }
+
+        .mx_SpaceRoomView_landing_hero_members {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid $separator;
+
+            &:empty {
+                display: none;
+            }
+
+            .mx_FacePile {
+                display: inline-flex;
+                cursor: pointer;
+                outline: 1px solid transparent;
+            }
         }
 
         .mx_SearchBox {

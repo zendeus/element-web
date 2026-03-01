@@ -8,7 +8,7 @@ Please see LICENSE files in the repository root for full details.
 
 .mx_SpacePanel {
     --activeBackground-color: $panel-actions;
-    --activeBorder-color: $primary-content;
+    --activeBorder-color: $accent;
     --activeBorder-transparent-gap: 1px;
     --gutterSize: 14px;
     --height-nested: 24px;
@@ -108,8 +108,7 @@ Please see LICENSE files in the repository root for full details.
             }
 
             &.mx_SpaceButton_narrow .mx_SpaceButton_selectionWrapper {
-                padding: var(--activeBorder-transparent-gap);
-                border: 3px var(--activeBorder-color) solid;
+                border-color: var(--activeBorder-color);
             }
         }
 
@@ -122,11 +121,15 @@ Please see LICENSE files in the repository root for full details.
             padding: 4px;
             width: calc(100% - 32px);
             min-width: 0;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
         &.mx_SpaceButton_narrow .mx_SpaceButton_selectionWrapper {
             flex: initial;
             width: 32px;
+            /* Always reserve space for the border so only color animates, no layout shift */
+            border: 2px solid transparent;
+            padding: 2px;
         }
 
         .mx_SpaceButton_name {

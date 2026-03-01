@@ -12,7 +12,6 @@ import { Text, Button, IconButton, Menu, MenuItem, Tooltip } from "@vector-im/co
 import VideoCallIcon from "@vector-im/compound-design-tokens/assets/web/icons/video-call-solid";
 import VoiceCallIcon from "@vector-im/compound-design-tokens/assets/web/icons/voice-call-solid";
 import CloseCallIcon from "@vector-im/compound-design-tokens/assets/web/icons/close";
-import ThreadsIcon from "@vector-im/compound-design-tokens/assets/web/icons/threads-solid";
 import RoomInfoIcon from "@vector-im/compound-design-tokens/assets/web/icons/info-solid";
 import NotificationsIcon from "@vector-im/compound-design-tokens/assets/web/icons/notifications-solid";
 import VerifiedIcon from "@vector-im/compound-design-tokens/assets/web/icons/verified";
@@ -22,7 +21,7 @@ import { HistoryVisibility, JoinRule, type Room } from "matrix-js-sdk/src/matrix
 import { type ViewRoomOpts } from "@matrix-org/react-sdk-module-api/lib/lifecycles/RoomViewLifecycle";
 import { Flex, Box } from "@element-hq/web-shared-components";
 import { CallType } from "matrix-js-sdk/src/webrtc/call";
-import { HistoryIcon, UserProfileSolidIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
+import { HistoryIcon, RoomIcon, UserProfileSolidIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
 
 import { useRoomName } from "../../../../hooks/useRoomName.ts";
 import { useTopic } from "../../../../hooks/room/useTopic.ts";
@@ -298,6 +297,26 @@ function RoomHeaderButtons({
         roomContext.mainSplitContentType === MainSplitContentType.Call;
     return (
         <>
+            {!isDirectMessage && (
+                <Text as="div" size="sm" weight="medium">
+                    <FacePile
+                        className="mx_RoomHeader_members"
+                        members={members.slice(0, 3)}
+                        size="20px"
+                        overflow={false}
+                        viewUserOnClick={false}
+                        tooltipLabel={_t("room|header_face_pile_tooltip")}
+                        onClick={(e: ButtonEvent) => {
+                            RightPanelStore.instance.showOrHidePhase(RightPanelPhases.MemberList);
+                            e.stopPropagation();
+                        }}
+                        aria-label={_t("common|n_members", { count: memberCount })}
+                    >
+                        {formatCount(memberCount)}
+                    </FacePile>
+                </Text>
+            )}
+
             {additionalButtons?.map((props) => {
                 const label = props.label();
 
@@ -339,7 +358,7 @@ function RoomHeaderButtons({
                     }}
                     aria-label={_t("common|threads")}
                 >
-                    <ToggleableIcon Icon={ThreadsIcon} phase={RightPanelPhases.ThreadPanel} />
+                    <ToggleableIcon Icon={RoomIcon} phase={RightPanelPhases.ThreadPanel} />
                 </IconButton>
             </Tooltip>
             {notificationsEnabled && (
@@ -368,26 +387,6 @@ function RoomHeaderButtons({
                     <ToggleableIcon Icon={RoomInfoIcon} phase={RightPanelPhases.RoomSummary} />
                 </IconButton>
             </Tooltip>
-
-            {!isDirectMessage && (
-                <Text as="div" size="sm" weight="medium">
-                    <FacePile
-                        className="mx_RoomHeader_members"
-                        members={members.slice(0, 3)}
-                        size="20px"
-                        overflow={false}
-                        viewUserOnClick={false}
-                        tooltipLabel={_t("room|header_face_pile_tooltip")}
-                        onClick={(e: ButtonEvent) => {
-                            RightPanelStore.instance.showOrHidePhase(RightPanelPhases.MemberList);
-                            e.stopPropagation();
-                        }}
-                        aria-label={_t("common|n_members", { count: memberCount })}
-                    >
-                        {formatCount(memberCount)}
-                    </FacePile>
-                </Text>
-            )}
         </>
     );
 }

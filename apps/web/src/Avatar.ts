@@ -114,10 +114,10 @@ export function defaultAvatarUrlForString(s: string): string {
     const colorIndex = useIdColorHash(s);
     // overwritten color value in custom themes
     const cssVariable = `--avatar-background-colors_${colorIndex}`;
-    const cssValue = getComputedStyle(document.body).getPropertyValue(cssVariable);
+    const cssValue = getComputedStyle(document.body).getPropertyValue(cssVariable).trim();
     // Light colors are the default
     const color =
-        cssValue || isDarkTheme() ? AVATAR_BG_DARK_COLORS[colorIndex - 1] : AVATAR_BG_LIGHT_COLORS[colorIndex - 1];
+        cssValue || (isDarkTheme() ? AVATAR_BG_DARK_COLORS[colorIndex - 1] : AVATAR_BG_LIGHT_COLORS[colorIndex - 1]);
 
     let dataUrl = colorToDataURLCache.get(color);
     if (!dataUrl) {
