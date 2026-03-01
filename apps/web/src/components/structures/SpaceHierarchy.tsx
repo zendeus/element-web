@@ -591,7 +591,7 @@ export const HierarchyLevel: React.FC<IHierarchyLevelProps> = ({
     );
 };
 
-const INITIAL_PAGE_SIZE = 20;
+const INITIAL_PAGE_SIZE = 50;
 
 export const useRoomHierarchy = (
     space: Room,
@@ -650,26 +650,33 @@ export const useRoomHierarchy = (
     };
 };
 
-const useIntersectionObserver = (callback: () => void): ((element: HTMLDivElement) => void) => {
-    const handleObserver = (entries: IntersectionObserverEntry[]): void => {
-        const target = entries[0];
-        if (target.isIntersecting) {
-            callback();
-        }
-    };
+const useIntersectionObserver = (callback: () => void): ((element: HTMLDivElement | null) => void) => {
+    const callbackRef = useRef(callback);
+    callbackRef.current = callback;
 
-    const observerRef = useRef<IntersectionObserver>(undefined);
-    return (element: HTMLDivElement) => {
+    const observerRef = useRef<IntersectionObserver | undefined>(undefined);
+
+    useEffect(() => {
+        return () => {
+            observerRef.current?.disconnect();
+        };
+    }, []);
+
+    return (element: HTMLDivElement | null) => {
         if (observerRef.current) {
             observerRef.current.disconnect();
-        } else if (element) {
-            observerRef.current = new IntersectionObserver(handleObserver, {
-                root: element.parentElement,
-                rootMargin: "0px 0px 600px 0px",
-            });
+            observerRef.current = undefined;
         }
 
-        if (observerRef.current && element) {
+        if (element) {
+            observerRef.current = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0]?.isIntersecting) {
+                        callbackRef.current();
+                    }
+                },
+                { rootMargin: "0px 0px 600px 0px" },
+            );
             observerRef.current.observe(element);
         }
     };
@@ -822,6 +829,15 @@ const SpaceHierarchy: React.FC<IProps> = ({ space, initialText = "", showRoom, a
     }
 
     const loaderRef = useIntersectionObserver(loadMore);
+
+    // Auto-paginate: load remaining pages after the initial batch completes.
+    // This ensures all rooms load even if the IntersectionObserver doesn't fire
+    // (e.g. when the loader element is already within the viewport).
+    useEffect(() => {
+        if (!loading && !hierarchyError && hierarchy?.canLoadMore && rooms?.length) {
+            loadMore();
+        }
+    }, [loading, hierarchyError, hierarchy, rooms, loadMore]);
 
     if (!loading && hierarchy!.noSupport) {
         return <p>{_t("space|incompatible_server_hierarchy")}</p>;
