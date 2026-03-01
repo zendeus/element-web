@@ -21,6 +21,7 @@ import ChatIcon from "@vector-im/compound-design-tokens/assets/web/icons/chat";
 import UserProfileIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-profile";
 import { GroupedVirtuoso } from "react-virtuoso";
 
+import RoomAvatar from "../../avatars/RoomAvatar";
 import { useMatrixClientContext } from "../../../../contexts/MatrixClientContext";
 import SpaceStore from "../../../../stores/spaces/SpaceStore";
 import { isMetaSpace } from "../../../../stores/spaces";
@@ -86,15 +87,24 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
         const items: FlatItem[] = [];
         for (const cat of categories) {
             if (isCollapsed(cat.id)) continue;
-            const icon = cat.isSubspace
-                ? <ChatIcon width="16" height="16" />
-                : CATEGORY_ICONS[cat.id as CategoryId];
+            const isDmCategory = cat.id === "directMessages";
             for (const roomId of cat.roomIds) {
+                let icon: ReactNode;
+                if (isDmCategory) {
+                    const room = matrixClient.getRoom(roomId);
+                    icon = room
+                        ? <RoomAvatar room={room} size="20px" />
+                        : CATEGORY_ICONS[cat.id as CategoryId];
+                } else {
+                    icon = cat.isSubspace
+                        ? <ChatIcon width="16" height="16" />
+                        : CATEGORY_ICONS[cat.id as CategoryId];
+                }
                 items.push({ roomId, categoryIcon: icon });
             }
         }
         return items;
-    }, [categories, isCollapsed]);
+    }, [categories, isCollapsed, matrixClient]);
 
     // Notify VM of visible room count
     useEffect(() => {

@@ -384,7 +384,7 @@ export const SETTINGS: Settings = {
         labsGroup: LabGroup.VoiceAndVideo,
         displayName: _td("labs|video_rooms"),
         supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG,
-        default: false,
+        default: true,
         // Reload to ensure that the left panel etc. get remounted
         controller: new ReloadOnChangeController(),
         betaInfo: {
@@ -633,7 +633,7 @@ export const SETTINGS: Settings = {
         supportedLevelsAreOrdered: true,
         displayName: _td("labs|element_call_video_rooms"),
         controller: new ReloadOnChangeController(),
-        default: false,
+        default: true,
     },
     "feature_group_calls": {
         isFeature: true,
