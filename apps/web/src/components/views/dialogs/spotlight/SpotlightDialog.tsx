@@ -40,6 +40,7 @@ import {
     GroupIcon,
     CloseIcon,
     LinkIcon,
+    SearchIcon,
 } from "@vector-im/compound-design-tokens/assets/web/icons";
 
 import { KeyBindingAction } from "../../../../accessibility/KeyboardShortcuts";
@@ -1269,6 +1270,7 @@ const SpotlightDialog: React.FC<IProps> = ({ initialText = "", initialFilter = n
                 aria-label={_t("spotlight_dialog|search_dialog")}
             >
                 <div className="mx_SpotlightDialog_searchBox mx_textinput">
+                    <SearchIcon className="mx_SpotlightDialog_searchIcon" />
                     {filter !== null && (
                         <div className="mx_SpotlightDialog_filter">
                             {filterToIcon(filter)}

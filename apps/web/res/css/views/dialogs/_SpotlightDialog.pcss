@@ -8,19 +8,31 @@ Please see LICENSE files in the repository root for full details.
 
 .mx_SpotlightDialog_wrapper {
     .mx_Dialog_border {
-        /* Disable the glass border as this dialog wasn't designed with it in mind */
-        display: contents;
+        /* Override Glass component's CSS module which sets padding/radius/blur
+           via CSS variables. !important needed to beat the module specificity. */
+        width: fit-content !important;
+        padding: 1px !important;
+        background: $separator !important;
+        backdrop-filter: none !important;
+        border-radius: 14px !important;
+        outline: none !important;
+
+        /* Inner child radius to match outer - padding */
+        > :first-child {
+            border-radius: 13px !important;
+        }
     }
 
     .mx_Dialog {
         /* !important because it's overriding compound  */
-        width: fit-content !important;
-        border-radius: 8px !important;
+        width: 640px !important;
+        max-width: calc(100vw - 48px);
+        border-radius: 13px !important;
         height: 60% !important;
-        overflow-y: initial;
+        max-height: 520px;
+        overflow: hidden;
         position: relative;
         padding: 0;
-        contain: unset; /* needed for #mx_SpotlightDialog_keyboardPrompt to not be culled */
 
         #mx_SpotlightDialog_keyboardPrompt {
             position: absolute;
@@ -53,18 +65,28 @@ Please see LICENSE files in the repository root for full details.
 
 .mx_SpotlightDialog {
     height: 100%;
+    width: 100% !important; /* Override mx_Dialog_fixedWidth (60vw/704px) to fill parent .mx_Dialog */
+    max-width: none !important;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     .mx_Dialog_header {
         display: none;
     }
 
+    .mx_SpotlightDialog_searchIcon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        color: $tertiary-content;
+    }
+
     .mx_SpotlightDialog_searchBox {
         margin: 0;
         border: none;
-        border-radius: 8px 8px 0 0;
-        padding: $spacing-12 $spacing-16;
+        border-radius: 13px 13px 0 0;
+        padding: $spacing-12 $spacing-24;
         border-bottom: 1px solid $system;
 
         > .mx_SpotlightDialog_filter {
@@ -114,12 +136,12 @@ Please see LICENSE files in the repository root for full details.
             box-sizing: border-box;
             background-color: transparent;
             width: 100%;
-            height: 32px;
+            height: 36px;
             padding: 0;
-            color: $tertiary-content;
+            color: $primary-content;
             font-weight: normal;
-            font-size: $font-15px;
-            line-height: $font-24px;
+            font-size: $font-16px;
+            line-height: 36px;
         }
 
         > .mx_Spinner {
@@ -143,7 +165,7 @@ Please see LICENSE files in the repository root for full details.
     #mx_SpotlightDialog_content {
         height: 100%;
         overflow-y: auto;
-        padding: $spacing-16;
+        padding: $spacing-20 $spacing-24;
 
         ul {
             padding: 0;
@@ -154,9 +176,11 @@ Please see LICENSE files in the repository root for full details.
             > h4,
             > .mx_SpotlightDialog_sectionHeader > h4 {
                 font-weight: var(--cpd-font-weight-semibold);
-                font-size: $font-12px;
+                font-size: 11px;
                 line-height: $font-15px;
-                color: $secondary-content;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: $tertiary-content;
                 margin: 0;
             }
 
@@ -185,10 +209,11 @@ Please see LICENSE files in the repository root for full details.
             border-radius: 8px;
             overflow: hidden;
             text-overflow: ellipsis;
+            transition: background-color 0.1s ease;
 
             &:hover,
             &[aria-selected="true"] {
-                background-color: var(--mx_SpotlightDialog_option_selectedBgColor, $quinary-content);
+                background-color: var(--mx_SpotlightDialog_option_selectedBgColor, $panel-actions);
             }
         }
 
@@ -388,6 +413,11 @@ Please see LICENSE files in the repository root for full details.
                     top: 50%;
                     transform: translateY(-50%);
                 }
+
+                &:hover svg,
+                &[aria-selected="true"] svg {
+                    color: $accent;
+                }
             }
 
             .mx_SpotlightDialog_otherSearches_messageSearchText {
@@ -423,7 +453,8 @@ Please see LICENSE files in the repository root for full details.
             line-height: $font-15px;
             color: $tertiary-content;
             border-radius: 6px;
-            background-color: $quinary-content;
+            border: 1px solid $separator;
+            background-color: $system;
             margin-right: $spacing-4;
             display: none;
         }
