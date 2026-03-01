@@ -1,0 +1,154 @@
+/*
+Copyright 2024 New Vector Ltd.
+
+SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
+*/
+
+.mx_ThreadMessageComposer {
+    display: flex;
+    flex-direction: column;
+    padding: 0 12px 8px;
+}
+
+/* Top divider line — full width across the panel */
+.mx_ThreadMessageComposer_divider {
+    height: 1px;
+    background: var(--cpd-color-gray-400);
+    margin: 0 -12px 0;
+    flex-shrink: 0;
+}
+
+/* Reply preview — compact */
+.mx_ThreadMessageComposer .mx_ReplyPreview {
+    margin: 6px 0 2px;
+
+    .mx_ReplyPreview_section {
+        max-height: 80px;
+        overflow: hidden;
+    }
+}
+
+/* UserIdentityWarning — compact */
+.mx_ThreadMessageComposer .mx_UserIdentityWarning {
+    margin: 4px 0 0;
+}
+
+/* Editor row: E2E icon + text input inline */
+.mx_ThreadMessageComposer_editor {
+    display: flex;
+    align-items: center;
+    padding: 8px 0 4px;
+    gap: 6px;
+    min-height: 0;
+
+    /* Override SendMessageComposer defaults for thread context */
+    .mx_SendMessageComposer {
+        flex: 1;
+        min-width: 0;
+        font: var(--cpd-font-body-sm-regular);
+        line-height: 1.3rem;
+        margin-right: 0;
+
+        .mx_BasicMessageComposer {
+            min-height: 22px;
+
+            .mx_BasicMessageComposer_input {
+                padding: 2px 0;
+                max-height: 100px;
+            }
+        }
+    }
+}
+
+/* E2E icon — inline, vertically centered with text input */
+.mx_ThreadMessageComposer_e2eIcon {
+    flex-shrink: 0;
+    display: block;
+}
+
+/* Voice recording area — when active, shown between editor and toolbar */
+.mx_ThreadMessageComposer > .mx_VoiceRecordComposerTile_stop,
+.mx_ThreadMessageComposer > .mx_VoiceRecordComposerTile_delete {
+    margin: 2px 0;
+}
+
+.mx_ThreadMessageComposer .mx_MediaBody.mx_VoiceMessagePrimaryContainer {
+    margin: 4px 0;
+}
+
+/* Toolbar row: emoji, attach, voice, spacer, send */
+.mx_ThreadMessageComposer_toolbar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 0 0;
+}
+
+.mx_ThreadMessageComposer_toolbarBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 6px;
+    color: var(--cpd-color-icon-secondary);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+
+    &:hover {
+        background: var(--cpd-color-bg-subtle-secondary);
+        color: var(--cpd-color-icon-primary);
+    }
+
+    svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+    }
+}
+
+/* Emoji button specifics — EmojiButton applies its own class alongside ours */
+.mx_ThreadMessageComposer_toolbar .mx_EmojiButton {
+    padding: 4px;
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.mx_ThreadMessageComposer_toolbar_spacer {
+    flex: 1;
+}
+
+/* Send button — accent circle */
+.mx_ThreadMessageComposer_sendBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: var(--cpd-color-icon-accent-tertiary);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+
+    &:active {
+        transform: scale(0.9);
+    }
+
+    svg {
+        width: 14px;
+        height: 14px;
+        display: block;
+        color: var(--cpd-color-icon-on-solid-primary);
+    }
+}
+
+/* No permission to send */
+.mx_ThreadMessageComposer_noperm {
+    padding: 12px 0;
+    font: var(--cpd-font-body-sm-regular);
+    color: $info-plinth-fg-color;
+    font-style: italic;
+    text-align: center;
+}

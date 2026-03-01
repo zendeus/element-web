@@ -22,7 +22,7 @@ import classNames from "classnames";
 import BaseCard from "../views/right_panel/BaseCard";
 import { RightPanelPhases } from "../../stores/right-panel/RightPanelStorePhases";
 import type ResizeNotifier from "../../utils/ResizeNotifier";
-import MessageComposer from "../views/rooms/MessageComposer";
+import ThreadMessageComposer from "../views/rooms/ThreadMessageComposer";
 import { type RoomPermalinkCreator } from "../../utils/permalinks/Permalinks";
 import { Layout } from "../../settings/enums/Layout";
 import TimelinePanel from "./TimelinePanel";
@@ -451,14 +451,13 @@ export default class ThreadView extends React.Component<IProps, IState> {
                     )}
 
                     {this.state.thread?.timelineSet && (
-                        <MessageComposer
+                        <ThreadMessageComposer
                             room={this.props.room}
                             resizeNotifier={this.props.resizeNotifier}
                             relation={threadRelation}
                             replyToEvent={this.state.replyToEvent}
                             permalinkCreator={this.props.permalinkCreator}
                             e2eStatus={this.props.e2eStatus}
-                            compact={true}
                         />
                     )}
                 </BaseCard>
