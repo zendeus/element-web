@@ -18,9 +18,24 @@ Please see LICENSE files in the repository root for full details.
 .mx_HomePage_default {
     text-align: center;
     display: flex;
+    position: relative;
+
+    /* Subtle gradient background matching SplashPage */
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse at 70% 0%, var(--cpd-color-bg-accent-selected) 0%, transparent 60%),
+            radial-gradient(ellipse at 30% 100%, var(--cpd-color-bg-accent-selected) 0%, transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+    }
 
     .mx_HomePage_default_wrapper {
         margin: auto;
+        position: relative;
+        z-index: 1;
     }
 
     img {
@@ -28,18 +43,15 @@ Please see LICENSE files in the repository root for full details.
     }
 
     h1 {
-        font-weight: var(--cpd-font-weight-semibold);
-        font-size: $font-32px;
-        line-height: 1.375;
+        font: var(--cpd-font-heading-xl-semibold);
+        color: var(--cpd-color-text-primary);
         margin-bottom: 4px;
     }
 
     h2 {
         margin-top: 4px;
-        font-weight: var(--cpd-font-weight-semibold);
-        font-size: $font-18px;
-        line-height: $font-25px;
-        color: $muted-fg-color;
+        font: var(--cpd-font-body-lg-regular);
+        color: var(--cpd-color-text-secondary);
     }
 
     .mx_MiniAvatarUploader {
@@ -56,19 +68,25 @@ Please see LICENSE files in the repository root for full details.
 
             width: 160px;
             min-height: 132px;
-            margin: 20px;
+            margin: 12px;
             position: relative;
             display: inline-block;
-            border-radius: 8px;
+            border-radius: 12px;
             vertical-align: top;
             word-break: break-word;
             box-sizing: border-box;
 
-            font-weight: var(--cpd-font-weight-semibold);
-            font-size: $font-15px;
-            line-height: $font-20px;
-            color: #fff; /* on all themes */
-            background-color: $accent;
+            font: var(--cpd-font-body-md-semibold);
+            color: var(--cpd-color-text-primary);
+            background-color: var(--cpd-color-bg-subtle-primary);
+            border: 1px solid var(--cpd-color-border-interactive-secondary);
+            box-shadow: var(--zendeus-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
+            transition: background-color 0.15s ease, box-shadow 0.15s ease;
+
+            &:hover {
+                background-color: var(--cpd-color-bg-action-secondary-hovered);
+                box-shadow: var(--zendeus-shadow-md, 0 4px 16px rgba(0, 0, 0, 0.08));
+            }
 
             svg {
                 top: 20px;
@@ -76,7 +94,7 @@ Please see LICENSE files in the repository root for full details.
                 width: 40px;
                 height: 40px;
                 position: absolute;
-                color: #fff; /* on all themes */
+                color: var(--cpd-color-icon-accent-primary);
             }
         }
     }

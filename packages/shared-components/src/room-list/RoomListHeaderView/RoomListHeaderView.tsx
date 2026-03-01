@@ -56,10 +56,10 @@ export interface RoomListHeaderViewSnapshot {
      */
     canAccessSpaceSettings: boolean;
     /**
-     * Name of the parent space, if viewing a subspace.
-     * Undefined on root spaces or Home.
+     * Ancestor space path from root to immediate parent, if viewing a subspace.
+     * Each entry has an id and name. Undefined on root spaces or Home.
      */
-    parentSpaceName?: string;
+    ancestorPath?: Array<{ id: string; name: string }>;
     /**
      * The currently active sort option.
      */
@@ -115,6 +115,10 @@ export interface RoomListHeaderViewActions {
      * Navigate to the parent space of the current subspace.
      */
     navigateToParentSpace: () => void;
+    /**
+     * Navigate to a specific ancestor space by room ID.
+     */
+    navigateToAncestorSpace: (roomId: string) => void;
 }
 
 /**
@@ -140,7 +144,7 @@ interface RoomListHeaderViewProps {
  */
 export function RoomListHeaderView({ vm }: Readonly<RoomListHeaderViewProps>): JSX.Element {
     const { translate: _t } = useI18n();
-    const { title, displaySpaceMenu, displayComposeMenu, parentSpaceName } = useViewModel(vm);
+    const { title, displaySpaceMenu, displayComposeMenu, ancestorPath } = useViewModel(vm);
 
     return (
         <Flex
@@ -152,14 +156,26 @@ export function RoomListHeaderView({ vm }: Readonly<RoomListHeaderViewProps>): J
         >
             <Flex className={styles.container} justify="space-between" align="center" gap="var(--cpd-space-3x)">
                 <Flex className={styles.title} align="center" gap="var(--cpd-space-1x)">
-                    {parentSpaceName && (
-                        <>
-                            <button className={styles.breadcrumb} onClick={() => vm.navigateToParentSpace()}>
-                                {parentSpaceName}
-                            </button>
-                            <span className={styles.separator}>/</span>
-                        </>
-                    )}
+                    {ancestorPath?.map((ancestor, i) => (
+                        <React.Fragment key={ancestor.id}>
+                            {/* For deep hierarchies (4+), show first, ellipsis, then last */}
+                            {ancestorPath.length <= 3 || i === 0 || i === ancestorPath.length - 1 ? (
+                                <button
+                                    className={styles.breadcrumb}
+                                    onClick={() => vm.navigateToAncestorSpace(ancestor.id)}
+                                >
+                                    {ancestor.name}
+                                </button>
+                            ) : i === 1 ? (
+                                <span className={styles.breadcrumb} aria-hidden>
+                                    &hellip;
+                                </span>
+                            ) : null}
+                            {(ancestorPath.length <= 3 || i === 0 || i === ancestorPath.length - 1 || i === 1) && (
+                                <span className={styles.separator}>/</span>
+                            )}
+                        </React.Fragment>
+                    ))}
                     <span className={styles.currentSpace} title={title}>
                         {title}
                     </span>

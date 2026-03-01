@@ -51,7 +51,7 @@ function getInitialCollapsed(id: string): boolean {
     }
 }
 
-function useNotificationCount(roomIds: string[]): number {
+export function useNotificationCount(roomIds: string[]): number {
     const matrixClient = useMatrixClientContext();
     const [count, setCount] = useState(() => computeCount(roomIds, matrixClient));
 
@@ -155,7 +155,11 @@ export function RoomCategorySection({
                     <ChevronRightIcon width="12" height="12" />
                 </span>
                 <span className="mx_RoomCategorySection_label">{label}</span>
-                {notificationCount > 0 && <span className="mx_RoomCategorySection_count">{notificationCount}</span>}
+                {(isCollapsed || notificationCount > 0) && (
+                    <span className="mx_RoomCategorySection_count">
+                        {isCollapsed ? `(${roomIds.length})` : notificationCount}
+                    </span>
+                )}
                 {isSubspace && spaceId && (
                     <span
                         className="mx_RoomCategorySection_options"

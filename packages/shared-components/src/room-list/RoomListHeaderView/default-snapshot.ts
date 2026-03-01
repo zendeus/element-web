@@ -16,7 +16,7 @@ export const defaultSnapshot: RoomListHeaderViewSnapshot = {
     canCreateSubspace: true,
     canInviteInSpace: true,
     canAccessSpaceSettings: true,
-    parentSpaceName: undefined,
+    ancestorPath: undefined,
     activeSortOption: "recent",
     isMessagePreviewEnabled: true,
 };

@@ -207,6 +207,10 @@ export class RoomListHeaderViewModel
         }
     };
 
+    public navigateToAncestorSpace = (roomId: string): void => {
+        this.props.spaceStore.setActiveSpace(roomId);
+    };
+
     public toggleMessagePreview = (): void => {
         PosthogTrackers.trackInteraction("WebRoomListMessagePreviewToggle");
 
@@ -290,12 +294,18 @@ function computeHeaderSpaceState(
         Boolean(activeSpace?.currentState.maySendStateEvent(EventType.SpaceChild, matrixClient.getSafeUserId())) &&
         shouldShowComponent(UIComponent.CreateSpaces);
 
-    const parent = activeSpace ? spaceStore.getCanonicalParent(activeSpace.roomId) : null;
-    const parentSpaceName = parent?.name ?? undefined;
+    const ancestors: Array<{ id: string; name: string }> = [];
+    let current = activeSpace ? spaceStore.getCanonicalParent(activeSpace.roomId) : null;
+    const visited = new Set<string>();
+    while (current && !visited.has(current.roomId)) {
+        visited.add(current.roomId);
+        ancestors.unshift({ id: current.roomId, name: current.name || current.roomId });
+        current = spaceStore.getCanonicalParent(current.roomId);
+    }
 
     return {
         title,
-        parentSpaceName,
+        ancestorPath: ancestors.length > 0 ? ancestors : undefined,
         canCreateRoom,
         canCreateVideoRoom,
         canCreateSubspace,

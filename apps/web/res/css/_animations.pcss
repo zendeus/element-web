@@ -71,6 +71,15 @@ Please see LICENSE files in the repository root for full details.
     }
 }
 
+@keyframes mx_RoomView_fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 @media (prefers-reduced-motion) {
     @keyframes mx--anim-pulse {
         /* Override all keyframes in reduced-motion */
@@ -85,6 +94,10 @@ Please see LICENSE files in the repository root for full details.
     }
 
     @keyframes mx_ImageView_panel_keyframes {
+        /* Override all keyframes in reduced-motion */
+    }
+
+    @keyframes mx_RoomView_fadeIn {
         /* Override all keyframes in reduced-motion */
     }
 

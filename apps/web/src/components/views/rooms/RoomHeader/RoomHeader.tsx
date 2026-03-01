@@ -25,6 +25,7 @@ import { CallType } from "matrix-js-sdk/src/webrtc/call";
 import { HistoryIcon, UserProfileSolidIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
 
 import { useRoomName } from "../../../../hooks/useRoomName.ts";
+import { useTopic } from "../../../../hooks/room/useTopic.ts";
 import { RightPanelPhases } from "../../../../stores/right-panel/RightPanelStorePhases.ts";
 import { useMatrixClientContext } from "../../../../contexts/MatrixClientContext.tsx";
 import { useRoomMemberCount, useRoomMembers } from "../../../../hooks/useRoomMembers.ts";
@@ -436,6 +437,7 @@ export default function RoomHeader({
 }): JSX.Element {
     const client = useMatrixClientContext();
     const roomName = useRoomName(room);
+    const topic = useTopic(room);
     const joinRule = useRoomState(room, (state) => state.getJoinRule());
     const historyVisibility = useRoomState(room, (state) => state.getHistoryVisibility());
     const historySharingEnabled = useFeatureEnabled("feature_share_history_on_invite");
@@ -526,6 +528,11 @@ export default function RoomHeader({
 
                                 {isRoomEncrypted && historySharingEnabled && historyVisibilityIcon(historyVisibility)}
                             </Text>
+                            {topic?.text && (
+                                <Text as="div" size="sm" className="mx_RoomHeader_topic mx_RoomHeader_truncated">
+                                    {topic.text}
+                                </Text>
+                            )}
                         </Box>
                     </button>
                     {/* If the room is local-only then we don't want to show any additional buttons, as it won't work */}

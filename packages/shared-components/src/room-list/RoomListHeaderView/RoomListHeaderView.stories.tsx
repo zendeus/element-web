@@ -32,6 +32,7 @@ const RoomListHeaderViewWrapperImpl = ({
     sort,
     toggleMessagePreview,
     navigateToParentSpace,
+    navigateToAncestorSpace,
     ...rest
 }: RoomListHeaderProps): JSX.Element => {
     const vm = useMockedViewModel(rest, {
@@ -46,6 +47,7 @@ const RoomListHeaderViewWrapperImpl = ({
         openSpacePreferences,
         toggleMessagePreview,
         navigateToParentSpace,
+        navigateToAncestorSpace,
     });
     return <RoomListHeaderView vm={vm} />;
 };
@@ -68,6 +70,7 @@ const meta = {
         openSpacePreferences: fn(),
         toggleMessagePreview: fn(),
         navigateToParentSpace: fn(),
+        navigateToAncestorSpace: fn(),
     },
     parameters: {
         design: {
