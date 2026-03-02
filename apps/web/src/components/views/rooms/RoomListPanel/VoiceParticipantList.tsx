@@ -29,6 +29,7 @@ interface VoiceParticipantRowProps {
 
 const VoiceParticipantRow: React.FC<VoiceParticipantRowProps> = ({ member }) => {
     const cli = useContext(MatrixClientContext);
+    const isSelf = member.userId === cli.getUserId();
 
     const onViewProfile = useCallback(() => {
         dis.dispatch({
@@ -64,13 +65,12 @@ const VoiceParticipantRow: React.FC<VoiceParticipantRowProps> = ({ member }) => 
                 <div className="mx_VoiceParticipantRow">
                     <MemberAvatar member={member} size="20px" hideTitle />
                     <span className="mx_VoiceParticipantRow_name">{member.name}</span>
-                    <span className="mx_VoiceParticipantRow_indicator" />
                 </div>
             }
         >
             <MenuItem Icon={UserProfileIcon} label="View Profile" onSelect={onViewProfile} />
-            <MenuItem Icon={ChatIcon} label="Send Message" onSelect={onSendMessage} />
-            <MenuItem Icon={MentionIcon} label="Mention" onSelect={onMention} />
+            {!isSelf && <MenuItem Icon={ChatIcon} label="Send Message" onSelect={onSendMessage} />}
+            {!isSelf && <MenuItem Icon={MentionIcon} label="Mention" onSelect={onMention} />}
         </ContextMenu>
     );
 };
