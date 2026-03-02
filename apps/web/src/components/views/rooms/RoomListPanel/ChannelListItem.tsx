@@ -5,13 +5,15 @@
  * Please see LICENSE files in the repository root for full details.
  */
 
-import React, { memo, type JSX, type ReactNode } from "react";
+import React, { memo, type ReactNode } from "react";
 import {
     useViewModel,
     NotificationDecoration,
     RoomListItemContextMenu,
     type RoomItemViewModel,
 } from "@element-hq/web-shared-components";
+
+import { VoiceParticipantList } from "./VoiceParticipantList";
 
 interface ChannelListItemProps {
     /** Per-room view model from RoomListViewViewModel.getRoomItemViewModel() */
@@ -35,24 +37,29 @@ export const ChannelListItem: React.FC<ChannelListItemProps> = memo(function Cha
 
     const className = `mx_ChannelListItem${isSelected ? " mx_ChannelListItem_selected" : ""}${item.isBold ? " mx_ChannelListItem_bold" : ""}`;
 
+    const hasCall = !!item.notification.callType;
+
     return (
         <RoomListItemContextMenu vm={vm}>
-            <button
-                className={className}
-                role="option"
-                aria-selected={isSelected}
-                onClick={vm.onOpenRoom}
-                title={item.name}
-            >
-                <span className="mx_ChannelListItem_icon" aria-hidden="true">
-                    {categoryIcon}
-                </span>
-                <span className="mx_ChannelListItem_name">{item.name}</span>
-                {item.messagePreview && (
-                    <span className="mx_ChannelListItem_preview">{item.messagePreview}</span>
-                )}
-                <NotificationDecoration {...item.notification} />
-            </button>
+            <div className="mx_ChannelListItem_wrapper">
+                <button
+                    className={className}
+                    role="option"
+                    aria-selected={isSelected}
+                    onClick={vm.onOpenRoom}
+                    title={item.name}
+                >
+                    <span className="mx_ChannelListItem_icon" aria-hidden="true">
+                        {categoryIcon}
+                    </span>
+                    <span className="mx_ChannelListItem_name">{item.name}</span>
+                    {item.messagePreview && (
+                        <span className="mx_ChannelListItem_preview">{item.messagePreview}</span>
+                    )}
+                    <NotificationDecoration {...item.notification} />
+                </button>
+                {hasCall && <VoiceParticipantList roomId={item.id} />}
+            </div>
         </RoomListItemContextMenu>
     );
 });
