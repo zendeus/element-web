@@ -141,7 +141,8 @@ export const Pill: React.FC<PillProps> = ({
             avatar = <PillRoomAvatar shouldShowPillAvatar={shouldShowPillAvatar} room={targetRoom} />;
             break;
         case PillType.UserMention:
-            avatar = <PillMemberAvatar shouldShowPillAvatar={shouldShowPillAvatar} member={member} />;
+            avatar = <PillMemberAvatar shouldShowPillAvatar={false} member={member} />;
+            pillText = text.startsWith("@") ? text.split(":")[0] : `@${text}`;
             break;
         case PillType.Keyword:
             break;

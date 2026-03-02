@@ -7,29 +7,35 @@ Please see LICENSE files in the repository root for full details.
 */
 
 .mx_Pill {
-    padding: $font-1px 0.4em $font-1px 0.4em;
+    padding: 3px 6px;
     line-height: $font-17px;
-    border-radius: $font-16px;
+    border-radius: 4px;
     vertical-align: text-top;
     display: inline-block;
     box-sizing: border-box;
     max-width: 100%;
     overflow: hidden;
     cursor: pointer;
+    font-weight: 500;
 
-    color: var(--cpd-color-text-on-solid-primary) !important; /* To override .markdown-body */
+    color: $pill-text-color !important; /* To override .markdown-body */
     background-color: $pill-bg-color !important; /* To override .markdown-body */
-    /* For enhanced visibility under contrast control */
-    outline: 1px solid transparent;
+    box-shadow: inset 0 0 0 1px $pill-hover-bg-color;
 
     > * {
         pointer-events: none;
     }
 
+    .mx_BaseAvatar {
+        display: none;
+    }
+
     &.mx_UserPill_me,
     &.mx_AtRoomPill,
     &.mx_KeywordPill {
-        background-color: var(--cpd-color-bg-critical-primary) !important; /* To override .markdown-body */
+        background-color: $pill-critical-bg-color !important; /* To override .markdown-body */
+        color: $pill-critical-text-color !important; /* To override .markdown-body */
+        box-shadow: inset 0 0 0 1px $pill-critical-hover-bg-color;
     }
 
     &:hover {
@@ -41,25 +47,20 @@ Please see LICENSE files in the repository root for full details.
     }
 
     &.mx_UserPill_me:hover {
-        background-color: var(
-            --cpd-color-bg-critical-hovered
-        ) !important; /* To override .markdown-body | same on both themes */
+        background-color: $pill-critical-hover-bg-color !important; /* To override .markdown-body */
     }
 
     /* We don't want to indicate clickability */
     &.mx_AtRoomPill:hover,
     &.mx_KeywordPill:hover {
-        background-color: var(--cpd-color-bg-critical-primary) !important; /* To override .markdown-body */
+        background-color: $pill-critical-hover-bg-color !important; /* To override .markdown-body */
         cursor: unset;
     }
 
-    &::before,
-    .mx_BaseAvatar {
-        margin-inline-start: -0.3em; /* Otherwise the gap is too large */
-        margin-inline-end: 0.2em;
-        min-width: $font-16px; /* ensure the avatar is not compressed */
-        user-select: text;
-        vertical-align: top;
+    &.mx_UserPill_me:active,
+    &.mx_AtRoomPill:active,
+    &.mx_KeywordPill:active {
+        background-color: $pill-critical-hover-bg-color !important; /* To override .markdown-body */
     }
 
     .mx_Pill_text {

@@ -104,16 +104,18 @@ Please see LICENSE files in the repository root for full details.
         in this repo */
         a[data-mention-type] {
             /* combine mx_Pill from _Pill.pcss */
-            padding: $font-1px 0.4em;
+            padding: 3px 6px;
             line-height: $font-17px;
-            border-radius: $font-16px;
+            border-radius: 4px;
             display: inline;
             box-sizing: border-box;
             max-width: 100%;
             overflow: hidden;
+            font-weight: 500;
 
-            color: var(--cpd-color-text-on-solid-primary);
+            color: $pill-text-color;
             background-color: $pill-bg-color;
+            box-shadow: inset 0 0 0 1px $pill-hover-bg-color;
 
             /* ...with the overrides from _BasicMessageComposer.pcss */
             user-select: all;
@@ -122,11 +124,9 @@ Please see LICENSE files in the repository root for full details.
             text-overflow: ellipsis;
             white-space: nowrap;
 
-            /* avatar pseudo element */
+            /* avatar pseudo element — hidden for tinted pill style */
             &::before {
-                /* After consolidation, all of the styling from _Pill.scss was being overridden,
-                so take what is in _BasicMessageComposer.pcss as the starting point */
-                display: inline-block;
+                display: none;
                 content: var(--avatar-letter);
                 background: var(--avatar-background), $background;
 
