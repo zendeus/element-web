@@ -137,11 +137,9 @@ export function useCategorizedRooms(
             } else if (isVideoRoom(room)) {
                 buckets.voiceVideo.push(roomId);
             } else if (DMRoomMap.shared().getUserIdForRoomId(roomId)) {
-                // Only show DMs on Home / meta-spaces; in a real space, fall through to text
+                // Only show DMs on Home / meta-spaces; skip them entirely in real spaces
                 if (!spaceId || isMetaSpace(spaceId)) {
                     buckets.directMessages.push(roomId);
-                } else {
-                    buckets.text.push(roomId);
                 }
             } else if (room.tags["m.lowpriority"]) {
                 buckets.lowPriority.push(roomId);
