@@ -13,6 +13,8 @@ import DMRoomMap from "../../../../utils/DMRoomMap";
 import { isVideoRoom } from "../../../../utils/video-rooms";
 import SpaceStore from "../../../../stores/spaces/SpaceStore";
 import { isMetaSpace } from "../../../../stores/spaces";
+import { _t } from "../../../../languageHandler";
+import { RoomNotificationStateStore } from "../../../../stores/notifications/RoomNotificationStateStore";
 
 export interface RoomCategory {
     id: string;
@@ -22,16 +24,41 @@ export interface RoomCategory {
     isSubspace?: boolean;
 }
 
-export type CategoryId = "invites" | "favourites" | "text" | "voiceVideo" | "directMessages" | "lowPriority";
+export type CategoryId = "invites" | "favourites" | "text" | "voiceVideo" | "directMessages" | "lowPriority" | "serverNotice";
 
-const CATEGORY_LABELS: Record<CategoryId, string> = {
-    invites: "Invites",
-    favourites: "Favourites",
-    text: "Text Channels",
-    voiceVideo: "Voice & Video",
-    directMessages: "Direct Messages",
-    lowPriority: "Low Priority",
+const CATEGORY_I18N_KEYS: Record<CategoryId, string> = {
+    invites: "room_list|category_invites",
+    favourites: "room_list|category_favourites",
+    text: "room_list|category_text",
+    voiceVideo: "room_list|category_voice_video",
+    directMessages: "room_list|category_direct_messages",
+    lowPriority: "room_list|category_low_priority",
+    serverNotice: "room_list|category_server_notice",
 };
+
+function getCategoryLabel(id: CategoryId): string {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return _t(CATEGORY_I18N_KEYS[id] as any);
+}
+
+/**
+ * Sort room IDs by notification importance level.
+ * Order: Unsent > Highlight > Notification > Activity > None > Muted.
+ * Stable sort — rooms within the same level keep their original order.
+ */
+function sortByImportance(roomIds: string[], matrixClient: MatrixClient): string[] {
+    return [...roomIds].sort((a, b) => {
+        const roomA = matrixClient.getRoom(a);
+        const roomB = matrixClient.getRoom(b);
+        if (!roomA || !roomB) return 0;
+        const stateA = RoomNotificationStateStore.instance.getRoomState(roomA);
+        const stateB = RoomNotificationStateStore.instance.getRoomState(roomB);
+        // Higher level = more important, sort descending. Muted rooms sink to the bottom.
+        const scoreA = stateA.muted ? -1 : stateA.level;
+        const scoreB = stateB.muted ? -1 : stateB.level;
+        return scoreB - scoreA;
+    });
+}
 
 export interface CategorizedRooms {
     categories: RoomCategory[];
@@ -60,17 +87,24 @@ export function useCategorizedRooms(
         const subspaceLabels = new Map<string, string>();
 
         if (spaceId && !isMetaSpace(spaceId)) {
-            const childSpaces = SpaceStore.instance.getChildSpaces(spaceId);
-            for (const subspace of childSpaces) {
+            const directChildSpaces = SpaceStore.instance.getChildSpaces(spaceId);
+            for (const subspace of directChildSpaces) {
                 const subspaceId = subspace.roomId;
                 subspaceOrder.push(subspaceId);
                 subspaceBuckets.set(subspaceId, []);
                 subspaceLabels.set(subspaceId, subspace.name || subspaceId);
 
-                const childRooms = SpaceStore.instance.getChildRooms(subspaceId);
-                for (const childRoom of childRooms) {
-                    roomToSubspace.set(childRoom.roomId, subspaceId);
-                }
+                // Recursively gather ALL rooms under this subspace (any depth)
+                SpaceStore.instance.traverseSpace(
+                    subspaceId,
+                    (roomId: string) => {
+                        const room = matrixClient.getRoom(roomId);
+                        if (room && !room.isSpaceRoom()) {
+                            roomToSubspace.set(roomId, subspaceId);
+                        }
+                    },
+                    true, // includeRooms
+                );
             }
         }
 
@@ -81,6 +115,7 @@ export function useCategorizedRooms(
             voiceVideo: [],
             directMessages: [],
             lowPriority: [],
+            serverNotice: [],
         };
 
         for (const roomId of roomIds) {
@@ -93,6 +128,8 @@ export function useCategorizedRooms(
                 buckets.invites.push(roomId);
             } else if (room.tags["m.favourite"]) {
                 buckets.favourites.push(roomId);
+            } else if (room.tags["m.server_notice"]) {
+                buckets.serverNotice.push(roomId);
             } else if (roomToSubspace.has(roomId)) {
                 // Room belongs to a subspace — put it in that subspace's bucket
                 const subspaceId = roomToSubspace.get(roomId)!;
@@ -100,9 +137,11 @@ export function useCategorizedRooms(
             } else if (isVideoRoom(room)) {
                 buckets.voiceVideo.push(roomId);
             } else if (DMRoomMap.shared().getUserIdForRoomId(roomId)) {
-                // Only show DMs on Home / meta-spaces
+                // Only show DMs on Home / meta-spaces; in a real space, fall through to text
                 if (!spaceId || isMetaSpace(spaceId)) {
                     buckets.directMessages.push(roomId);
+                } else {
+                    buckets.text.push(roomId);
                 }
             } else if (room.tags["m.lowpriority"]) {
                 buckets.lowPriority.push(roomId);
@@ -111,13 +150,21 @@ export function useCategorizedRooms(
             }
         }
 
+        // Sort each bucket by importance
+        for (const id of Object.keys(buckets) as CategoryId[]) {
+            buckets[id] = sortByImportance(buckets[id], matrixClient);
+        }
+        for (const [subspaceId, subRoomIds] of subspaceBuckets) {
+            subspaceBuckets.set(subspaceId, sortByImportance(subRoomIds, matrixClient));
+        }
+
         // Build the final ordered category list
         const categories: RoomCategory[] = [];
 
         // Invites and Favourites first
         for (const id of ["invites", "favourites"] as CategoryId[]) {
             if (buckets[id].length > 0) {
-                categories.push({ id, label: CATEGORY_LABELS[id], roomIds: buckets[id] });
+                categories.push({ id, label: getCategoryLabel(id), roomIds: buckets[id] });
             }
         }
 
@@ -135,9 +182,9 @@ export function useCategorizedRooms(
         }
 
         // Remaining type-based categories
-        for (const id of ["text", "voiceVideo", "directMessages", "lowPriority"] as CategoryId[]) {
+        for (const id of ["text", "voiceVideo", "directMessages", "lowPriority", "serverNotice"] as CategoryId[]) {
             if (buckets[id].length > 0) {
-                categories.push({ id, label: CATEGORY_LABELS[id], roomIds: buckets[id] });
+                categories.push({ id, label: getCategoryLabel(id), roomIds: buckets[id] });
             }
         }
 

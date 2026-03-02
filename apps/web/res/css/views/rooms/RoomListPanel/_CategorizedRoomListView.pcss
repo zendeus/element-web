@@ -327,3 +327,113 @@
     font: var(--cpd-font-body-sm-regular);
     color: var(--cpd-color-text-secondary);
 }
+
+/* Knocked (pending knock) state */
+.mx_ChannelListItem_knocked {
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Muted room state */
+.mx_ChannelListItem_muted {
+    opacity: 0.5;
+
+    .mx_ChannelListItem_name {
+        color: var(--cpd-color-text-secondary);
+    }
+}
+
+/* Typing indicator */
+.mx_ChannelListItem_typing {
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    max-width: 40%;
+    font: var(--cpd-font-body-sm-regular);
+    font-style: italic;
+    color: var(--cpd-color-text-action-accent);
+}
+
+/* Suggested rooms section */
+.mx_SuggestedRoomsSection {
+    margin-top: var(--cpd-space-1x);
+    padding-top: var(--cpd-space-1x);
+    border-top: 1px solid var(--cpd-color-bg-subtle-primary);
+}
+
+.mx_SuggestedRoomsSection_header {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-1x);
+    padding: var(--cpd-space-1x) var(--cpd-space-3x);
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-sm-regular);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+}
+
+.mx_SuggestedRoomItem {
+    display: flex;
+    align-items: center;
+    gap: var(--cpd-space-2x);
+    width: 100%;
+    min-height: 44px;
+    padding: var(--cpd-space-1x) var(--cpd-space-3x);
+    padding-left: var(--cpd-space-4x);
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--cpd-color-text-secondary);
+    font: var(--cpd-font-body-md-regular);
+    font-style: italic;
+    text-align: left;
+    opacity: 0.5;
+    transition:
+        opacity 0.15s ease,
+        background-color 0.1s ease;
+
+    &:hover {
+        opacity: 0.8;
+        background-color: var(--cpd-color-bg-action-secondary-hovered);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--cpd-color-border-focused);
+        outline-offset: -2px;
+        opacity: 0.8;
+    }
+}
+
+.mx_SuggestedRoomItem_icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--cpd-color-icon-secondary);
+
+    svg {
+        fill: currentColor;
+    }
+}
+
+.mx_SuggestedRoomItem_name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.mx_SuggestedRoomItem_actions {
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.mx_SuggestedRoomItem:hover .mx_SuggestedRoomItem_actions,
+.mx_SuggestedRoomItem_actions:focus-within {
+    opacity: 1;
+}

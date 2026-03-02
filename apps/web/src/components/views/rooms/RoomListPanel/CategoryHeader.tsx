@@ -15,7 +15,8 @@ import { IconButton, Menu, MenuItem } from "@vector-im/compound-web";
 
 import SpaceStore from "../../../../stores/spaces/SpaceStore";
 import defaultDispatcher from "../../../../dispatcher/dispatcher";
-import { useNotificationCount } from "./RoomCategorySection";
+import { useNotificationCount } from "./useNotificationCount";
+import { _t } from "../../../../languageHandler";
 
 interface CategoryHeaderProps {
     id: string;
@@ -103,14 +104,14 @@ export function CategoryHeader({
                                 </IconButton>
                             }
                         >
-                            <MenuItem Icon={HomeIcon} label="Open Space" onSelect={handleOpenSpace} hideChevron />
+                            <MenuItem Icon={HomeIcon} label={_t("room_list|subspace_menu_open")} onSelect={handleOpenSpace} hideChevron />
                             <MenuItem
                                 Icon={SettingsIcon}
-                                label="Space Settings"
+                                label={_t("room_list|subspace_menu_settings")}
                                 onSelect={handleSpaceSettings}
                                 hideChevron
                             />
-                            <MenuItem Icon={UserAddIcon} label="Invite People" onSelect={handleInvite} hideChevron />
+                            <MenuItem Icon={UserAddIcon} label={_t("room_list|subspace_menu_invite")} onSelect={handleInvite} hideChevron />
                         </Menu>
                     </span>
                 )}

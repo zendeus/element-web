@@ -2173,7 +2173,22 @@
         "sort_unread_first": "Show rooms with unread messages first",
         "space_menu_label": "%(spaceName)s menu",
         "sublist_options": "List options",
-        "suggested_rooms_heading": "Suggested Rooms"
+        "suggested_rooms_heading": "Suggested Rooms",
+        "category_invites": "Invites",
+        "category_favourites": "Favourites",
+        "category_text": "Text Channels",
+        "category_voice_video": "Voice & Video",
+        "category_direct_messages": "Direct Messages",
+        "category_low_priority": "Low Priority",
+        "category_server_notice": "Server Notices",
+        "subspace_menu_open": "Open Space",
+        "subspace_menu_settings": "Space Settings",
+        "subspace_menu_invite": "Invite People",
+        "empty_space": "This space has no channels yet",
+        "empty_rooms": "No rooms to show",
+        "available_spaces_header": "Available Spaces",
+        "suggested_rooms_header": "Suggested Rooms",
+        "join_button": "Join"
     },
     "room_settings": {
         "access": {

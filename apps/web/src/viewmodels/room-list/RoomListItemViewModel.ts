@@ -235,6 +235,7 @@ export class RoomListItemViewModel
                 hasUnreadCount: notifState.hasUnreadCount,
                 count: notifState.count,
                 muted: isNotificationMute,
+                knocked: notifState.knocked,
                 callType: hasParticipantsInCall ? callType : undefined,
             },
             showMoreOptionsMenu,

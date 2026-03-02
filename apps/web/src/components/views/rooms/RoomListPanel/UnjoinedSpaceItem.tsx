@@ -11,6 +11,7 @@ import PublicIcon from "@vector-im/compound-design-tokens/assets/web/icons/publi
 
 import SpaceStore from "../../../../stores/spaces/SpaceStore";
 import type { UnjoinedSpace } from "./useUnjoinedChildSpaces";
+import { _t } from "../../../../languageHandler";
 
 interface UnjoinedSpaceItemProps {
     space: UnjoinedSpace;
@@ -65,7 +66,7 @@ export function UnjoinedSpaceItem({ space, onJoin, isJoining }: UnjoinedSpaceIte
                     <InlineSpinner />
                 ) : (
                     <Button size="sm" kind="secondary" onClick={handleJoinClick}>
-                        Join
+                        {_t("room_list|join_button")}
                     </Button>
                 )}
             </span>
