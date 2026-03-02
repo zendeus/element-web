@@ -14,6 +14,7 @@ import {
     EmailSolidIcon,
     VoiceCallSolidIcon,
 } from "@vector-im/compound-design-tokens/assets/web/icons";
+import TimeIcon from "@vector-im/compound-design-tokens/assets/web/icons/time";
 import { UnreadCounter, Unread } from "@vector-im/compound-web";
 
 import { Flex } from "../../../utils/Flex";
@@ -43,6 +44,8 @@ export interface NotificationDecorationData {
     muted: boolean;
     /** Optional call type indicator */
     callType?: "video" | "voice";
+    /** Whether the user has knocked on this room */
+    knocked?: boolean;
 }
 
 /**
@@ -59,13 +62,14 @@ export const NotificationDecoration: React.FC<NotificationDecorationProps> = ({
     callType,
     isUnsentMessage,
     invited,
+    knocked,
     isMention,
     isNotification,
     isActivityNotification,
     count,
 }) => {
     // Don't render anything if there's nothing to show
-    if (!hasAnyNotificationOrActivity && !muted && !callType) {
+    if (!hasAnyNotificationOrActivity && !muted && !callType && !knocked) {
         return null;
     }
 
@@ -81,6 +85,7 @@ export const NotificationDecoration: React.FC<NotificationDecorationProps> = ({
                 <VoiceCallSolidIcon width="20px" height="20px" fill="var(--cpd-color-icon-accent-primary)" />
             )}
             {invited && <EmailSolidIcon width="20px" height="20px" fill="var(--cpd-color-icon-accent-primary)" />}
+            {knocked && <TimeIcon width="20px" height="20px" fill="var(--cpd-color-icon-tertiary)" />}
             {isMention && <MentionIcon width="20px" height="20px" fill="var(--cpd-color-icon-accent-primary)" />}
             {(isMention || isNotification) && <UnreadCounter count={count || null} />}
             {isActivityNotification && <Unread />}

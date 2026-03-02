@@ -14,6 +14,7 @@ import {
 } from "@element-hq/web-shared-components";
 
 import { VoiceParticipantList } from "./VoiceParticipantList";
+import { useTypingIndicator } from "./useTypingIndicator";
 
 interface ChannelListItemProps {
     /** Per-room view model from RoomListViewViewModel.getRoomItemViewModel() */
@@ -34,8 +35,9 @@ export const ChannelListItem: React.FC<ChannelListItemProps> = memo(function Cha
     categoryIcon,
 }) {
     const item = useViewModel(vm);
+    const typingText = useTypingIndicator(item.id);
 
-    const className = `mx_ChannelListItem${isSelected ? " mx_ChannelListItem_selected" : ""}${item.isBold ? " mx_ChannelListItem_bold" : ""}`;
+    const className = `mx_ChannelListItem${isSelected ? " mx_ChannelListItem_selected" : ""}${item.isBold ? " mx_ChannelListItem_bold" : ""}${item.notification.knocked ? " mx_ChannelListItem_knocked" : ""}${item.notification.muted ? " mx_ChannelListItem_muted" : ""}`;
 
     const hasCall = !!item.notification.callType;
 
@@ -53,9 +55,11 @@ export const ChannelListItem: React.FC<ChannelListItemProps> = memo(function Cha
                         {categoryIcon}
                     </span>
                     <span className="mx_ChannelListItem_name">{item.name}</span>
-                    {item.messagePreview && (
+                    {typingText ? (
+                        <span className="mx_ChannelListItem_typing">{typingText}</span>
+                    ) : item.messagePreview ? (
                         <span className="mx_ChannelListItem_preview">{item.messagePreview}</span>
-                    )}
+                    ) : null}
                     <NotificationDecoration {...item.notification} />
                 </button>
                 {hasCall && <VoiceParticipantList roomId={item.id} />}

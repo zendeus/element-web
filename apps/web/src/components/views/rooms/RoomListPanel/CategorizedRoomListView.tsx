@@ -19,6 +19,7 @@ import {
 } from "@vector-im/compound-design-tokens/assets/web/icons";
 import ChatIcon from "@vector-im/compound-design-tokens/assets/web/icons/chat";
 import UserProfileIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-profile";
+import InfoIcon from "@vector-im/compound-design-tokens/assets/web/icons/info";
 import { GroupedVirtuoso } from "react-virtuoso";
 
 import RoomAvatar from "../../avatars/RoomAvatar";
@@ -31,6 +32,9 @@ import { UnjoinedSpaceItem } from "./UnjoinedSpaceItem";
 import { CategoryHeader } from "./CategoryHeader";
 import { ChannelListItem } from "./ChannelListItem";
 import { useCollapsedCategories } from "./useCollapsedCategories";
+import { useSuggestedRooms } from "./useSuggestedRooms";
+import { SuggestedRoomItem } from "./SuggestedRoomItem";
+import { _t } from "../../../../languageHandler";
 
 interface CategorizedRoomListViewProps {
     /** The room list view model */
@@ -48,6 +52,7 @@ const CATEGORY_ICONS: Record<CategoryId, ReactNode> = {
     voiceVideo: <VideoCallSolidIcon width="16" height="16" />,
     directMessages: <UserProfileIcon width="16" height="16" />,
     lowPriority: <ArrowDownIcon width="16" height="16" />,
+    serverNotice: <InfoIcon width="16" height="16" />,
 };
 
 /**
@@ -70,8 +75,10 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
     const spaceId = SpaceStore.instance.activeSpace;
     const { categories, totalCount } = useCategorizedRooms(snapshot.roomIds, matrixClient, spaceId);
     const isRealSpace = spaceId && !isMetaSpace(spaceId);
-    const { unjoinedSpaces, joinSpace, joiningRoomId } =
+    const { unjoinedSpaces, joinSpace, joiningRoomId: joiningSpaceId } =
         useUnjoinedChildSpaces(matrixClient, isRealSpace ? spaceId : undefined);
+    const { suggestedRooms, joinRoom: joinSuggestedRoom, joiningRoomId: joiningSuggestedRoomId } =
+        useSuggestedRooms(matrixClient, isRealSpace ? spaceId : undefined);
 
     const categoryIds = useMemo(() => categories.map((cat) => cat.id), [categories]);
     const { isCollapsed, toggle } = useCollapsedCategories(categoryIds);
@@ -174,11 +181,11 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
         );
     }
 
-    if (snapshot.isRoomListEmpty && unjoinedSpaces.length === 0) {
+    if (snapshot.isRoomListEmpty && unjoinedSpaces.length === 0 && suggestedRooms.length === 0) {
         return (
             <div className="mx_CategorizedRoomListView" onKeyDown={onKeyDown}>
                 <div className="mx_CategorizedRoomListView_empty">
-                    <p>{isRealSpace ? "This space has no channels yet" : "No rooms to show"}</p>
+                    <p>{isRealSpace ? _t("room_list|empty_space") : _t("room_list|empty_rooms")}</p>
                 </div>
             </div>
         );
@@ -196,13 +203,26 @@ export function CategorizedRoomListView({ vm, onKeyDown }: CategorizedRoomListVi
             />
             {isRealSpace && unjoinedSpaces.length > 0 && (
                 <div className="mx_UnjoinedSpacesSection">
-                    <div className="mx_UnjoinedSpacesSection_header">Available Spaces</div>
+                    <div className="mx_UnjoinedSpacesSection_header">{_t("room_list|available_spaces_header")}</div>
                     {unjoinedSpaces.map((space) => (
                         <UnjoinedSpaceItem
                             key={space.roomId}
                             space={space}
                             onJoin={joinSpace}
-                            isJoining={joiningRoomId === space.roomId}
+                            isJoining={joiningSpaceId === space.roomId}
+                        />
+                    ))}
+                </div>
+            )}
+            {isRealSpace && suggestedRooms.length > 0 && (
+                <div className="mx_SuggestedRoomsSection">
+                    <div className="mx_SuggestedRoomsSection_header">{_t("room_list|suggested_rooms_header")}</div>
+                    {suggestedRooms.map((room) => (
+                        <SuggestedRoomItem
+                            key={room.room_id}
+                            room={room}
+                            onJoin={joinSuggestedRoom}
+                            isJoining={joiningSuggestedRoomId === room.room_id}
                         />
                     ))}
                 </div>
